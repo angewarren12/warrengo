@@ -113,15 +113,13 @@ const Dashboard = () => {
               </div>
               
               <div className="flex flex-col space-y-2 relative z-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold ml-10">Transfert d'unités</h3>
-                  <button className="btn-sm-primary px-3 py-1 text-sm transition-all duration-300 hover:shadow-md group-hover:bg-gradient-to-r group-hover:from-[#7B4CE6] group-hover:to-[#C936DF]">
-                    Transférer
-                  </button>
-                </div>
-                <p className="text-xs text-muted-foreground ml-10">
+                <h3 className="text-base font-semibold ml-10">Transfert d'unités</h3>
+                <p className="text-xs text-muted-foreground ml-10 mb-2">
                   Envoyez des unités vers n'importe quel numéro
                 </p>
+                <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md group-hover:bg-gradient-to-r group-hover:from-[#7B4CE6] group-hover:to-[#C936DF]">
+                  Transférer
+                </button>
               </div>
             </div>
           </Card>
@@ -141,15 +139,13 @@ const Dashboard = () => {
               </div>
               
               <div className="flex flex-col space-y-2 relative z-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-semibold ml-10">Souscription</h3>
-                  <button className="btn-sm-primary px-3 py-1 text-sm transition-all duration-300 hover:shadow-md group-hover:bg-gradient-to-r group-hover:from-[#0D95D9] group-hover:to-[#7B4CE6]">
-                    Souscrire
-                  </button>
-                </div>
-                <p className="text-xs text-muted-foreground ml-10">
+                <h3 className="text-base font-semibold ml-10">Souscription</h3>
+                <p className="text-xs text-muted-foreground ml-10 mb-2">
                   Internet ou appels, choisissez votre forfait
                 </p>
+                <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md group-hover:bg-gradient-to-r group-hover:from-[#0D95D9] group-hover:to-[#7B4CE6]">
+                  Souscrire
+                </button>
               </div>
             </div>
           </Card>
