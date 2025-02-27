@@ -1,14 +1,45 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import SplashScreen from "@/components/SplashScreen";
+import OnboardingPage from "@/components/OnboardingPage";
+import LoginPage from "@/components/LoginPage";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import Layout from "@/components/layout/Layout";
+import { useAuth } from "@/context/AuthContext";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasSeenOnboarding] = useLocalStorage("hasSeenOnboarding", false);
+  const [showLogin, setShowLogin] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  
+  useEffect(() => {
+    if (user?.isAuthenticated) {
+      navigate("/dashboard");
+      return;
+    }
+    
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      
+      if (hasSeenOnboarding) {
+        setShowLogin(true);
+      }
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, [hasSeenOnboarding, navigate, user]);
+  
+  if (isLoading) {
+    return <SplashScreen />;
+  }
+  
+  if (showLogin) {
+    return <LoginPage />;
+  }
+  
+  return <OnboardingPage />;
 };
 
 export default Index;
