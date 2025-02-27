@@ -12,15 +12,17 @@ const Dashboard = () => {
       amount: "2000 F", 
       recipient: "07 89 34 56 21", 
       date: "Aujourd'hui, 14:30",
-      isIncoming: false
+      isIncoming: false,
+      status: "Réussi"
     },
     { 
       id: 2, 
-      type: "pass", 
+      type: "Souscription Internet", 
       amount: "1000 F", 
       recipient: "Pass Internet 1 Go", 
       date: "Hier, 09:15",
-      isIncoming: false
+      isIncoming: false,
+      status: "Réussi"
     },
     { 
       id: 3, 
@@ -28,7 +30,8 @@ const Dashboard = () => {
       amount: "5000 F", 
       recipient: "De: 05 67 23 45 78", 
       date: "20/04/2023",
-      isIncoming: true
+      isIncoming: true,
+      status: "Réussi"
     }
   ];
 
@@ -105,6 +108,9 @@ const Dashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
+              <p className="text-xs text-muted-foreground mb-2">
+                Envoyez des unités vers n'importe quel numéro
+              </p>
               <button className="btn-primary w-full justify-center text-sm py-2">
                 Transférer
               </button>
@@ -117,36 +123,19 @@ const Dashboard = () => {
                 <div className="mr-2 p-2 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#8B5CF6] text-white">
                   <Globe size={16} />
                 </div>
-                Pass Internet
+                Souscription
               </CardTitle>
             </CardHeader>
             <CardContent>
+              <p className="text-xs text-muted-foreground mb-2">
+                Internet ou appels, choisissez votre forfait
+              </p>
               <button className="btn-primary w-full justify-center text-sm py-2">
-                Acheter
+                Souscrire
               </button>
             </CardContent>
           </Card>
         </div>
-        
-        {/* Moyens de paiement */}
-        <Card className="glass-card border-0 mb-6">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-lg flex items-center">
-              <div className="mr-2 p-2 rounded-full bg-gradient-to-r from-[#F97316] to-[#D946EF] text-white">
-                <Wallet size={18} />
-              </div>
-              Moyens de paiement
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-3">
-              Gérez vos méthodes de paiement mobile
-            </p>
-            <button className="btn-primary w-full justify-center">
-              Gérer
-            </button>
-          </CardContent>
-        </Card>
         
         {/* Historique récent */}
         <div>
@@ -163,13 +152,13 @@ const Dashboard = () => {
                     <div className={`p-2 rounded-full ${
                       transaction.isIncoming 
                         ? "bg-gradient-to-r from-green-500 to-green-400" 
-                        : transaction.type === "pass"
+                        : transaction.type.includes("Internet")
                           ? "bg-gradient-to-r from-[#0EA5E9] to-[#8B5CF6]"
                           : "bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]"
                     } text-white`}>
                       {transaction.isIncoming ? (
                         <ArrowDownLeft size={16} />
-                      ) : transaction.type === "pass" ? (
+                      ) : transaction.type.includes("Internet") ? (
                         <Globe size={16} />
                       ) : (
                         <ArrowUpRight size={16} />
@@ -181,10 +170,20 @@ const Dashboard = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <p className="font-medium text-sm">{transaction.recipient}</p>
-                        <p className="text-xs text-muted-foreground flex items-center">
-                          <Calendar size={10} className="mr-1" />
-                          {transaction.date}
-                        </p>
+                        <div className="flex items-center space-x-2">
+                          <p className="text-xs text-muted-foreground flex items-center">
+                            <Calendar size={10} className="mr-1" />
+                            {transaction.date}
+                          </p>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs px-1.5 py-0.5 rounded bg-secondary/10 text-secondary">
+                              {transaction.type}
+                            </span>
+                            <span className="text-xs px-1.5 py-0.5 rounded bg-green-100 text-green-600 dark:bg-green-900/30">
+                              {transaction.status}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                       <p className={`font-semibold ${
                         transaction.isIncoming ? "text-green-600" : "text-foreground"
