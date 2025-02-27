@@ -1,6 +1,6 @@
 
 import { useNavigate, useLocation } from "react-router-dom";
-import { Globe, Phone, User } from "lucide-react";
+import { Globe, Phone, User, History } from "lucide-react";
 
 const BottomNavigation = () => {
   const navigate = useNavigate();
@@ -18,6 +18,11 @@ const BottomNavigation = () => {
       icon: <Phone size={20} />,
     },
     {
+      label: "Historique",
+      path: "/history",
+      icon: <History size={20} />,
+    },
+    {
       label: "Profil",
       path: "/profile",
       icon: <User size={20} />,
@@ -33,7 +38,7 @@ const BottomNavigation = () => {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`flex flex-col items-center justify-center space-y-1 w-1/3 h-full transition-all duration-300 ${
+            className={`flex flex-col items-center justify-center space-y-1 w-1/4 h-full transition-all duration-300 ${
               isActive(item.path)
                 ? "text-primary"
                 : "text-muted-foreground hover:text-foreground"
