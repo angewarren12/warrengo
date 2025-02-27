@@ -4,12 +4,10 @@ import { Layout } from "@/components/layout";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, ArrowRight, ArrowLeft, CheckCircle2, Clock } from "lucide-react";
+import { Phone, ArrowRight, ArrowLeft, CheckCircle2, Wallet, CreditCard, Clock } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import PaymentAnimation from "@/components/PaymentAnimation";
-import TransferSuccess from "@/components/TransferSuccess";
 
 // Définition des opérateurs en fonction des préfixes
 const OPERATORS = {
@@ -17,38 +15,6 @@ const OPERATORS = {
   "05": "MTN", 
   "07": "Orange"
 };
-
-// Définition des moyens de paiement avec leurs préfixes requis
-const PAYMENT_METHODS = [
-  {
-    id: "orange-money",
-    name: "Orange Money",
-    logo: "https://seeklogo.com/images/O/orange-money-logo-8F2AED308D-seeklogo.com.png", 
-    prefix: "07",
-    description: "Paiement via Orange Money"
-  },
-  {
-    id: "moov-money",
-    name: "Moov Money",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a8/Moov_Money_Flooz.png", 
-    prefix: "01",
-    description: "Paiement via Moov Money"
-  },
-  {
-    id: "mtn-money",
-    name: "MTN Money",
-    logo: "https://paytou.org/wp-content/uploads/2020/10/5-2.png", 
-    prefix: "05",
-    description: "Paiement via MTN Money"
-  },
-  {
-    id: "wave",
-    name: "Wave",
-    logo: "https://yop.l-frii.com/wp-content/uploads/2025/02/WAVE-recrute-pour-ce-poste-22-fevrier-2025.png", 
-    prefix: "",
-    description: "Paiement via Wave"
-  }
-];
 
 const COMMISSION_PERCENTAGE = 3;
 
@@ -59,10 +25,10 @@ const TransferService = () => {
   const [operator, setOperator] = useState("");
   const [commission, setCommission] = useState(0);
   const [total, setTotal] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("orange-money");
+  const [paymentMethod, setPaymentMethod] = useState("mobile-money");
   const [paymentNumber, setPaymentNumber] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showPaymentAnimation, setShowPaymentAnimation] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -102,25 +68,13 @@ const TransferService = () => {
     return !isNaN(numVal) && numVal >= 100 && numVal <= 100000;
   };
 
-  // Fonction pour valider le numéro de paiement en fonction du moyen de paiement sélectionné
+  // Fonction pour valider le numéro de paiement
   const validatePaymentNumber = (number: string) => {
-    if (paymentMethod === "pay-later") {
-      return true; // Pas de validation pour "Payer plus tard"
+    if (paymentMethod === "mobile-money") {
+      // Même validation que pour le numéro de destinataire
+      return validatePhoneNumber(number);
     }
-    
-    // Pour Wave, seule la longueur de 10 chiffres est requise
-    if (paymentMethod === "wave") {
-      return /^[0-9]{10}$/.test(number);
-    }
-    
-    // Pour les autres moyens de paiement, vérifier le préfixe spécifique
-    const selectedMethod = PAYMENT_METHODS.find(method => method.id === paymentMethod);
-    if (selectedMethod && selectedMethod.prefix) {
-      const regex = new RegExp(`^${selectedMethod.prefix}[0-9]{8}$`);
-      return regex.test(number);
-    }
-    
-    return false;
+    return number.length > 0;
   };
 
   // Fonction pour gérer le passage à l'étape suivante
@@ -144,27 +98,30 @@ const TransferService = () => {
         return;
       }
     } else if (step === 3) {
-      if (paymentMethod !== "pay-later" && !validatePaymentNumber(paymentNumber)) {
-        const selectedMethod = PAYMENT_METHODS.find(method => method.id === paymentMethod);
-        let errorMessage = "Veuillez entrer un numéro valide pour le paiement";
-        
-        if (selectedMethod && selectedMethod.prefix) {
-          errorMessage = `Pour ${selectedMethod.name}, le numéro doit commencer par ${selectedMethod.prefix} et avoir 10 chiffres`;
-        } else if (paymentMethod === "wave") {
-          errorMessage = "Le numéro Wave doit avoir 10 chiffres";
-        }
-        
+      if (!validatePaymentNumber(paymentNumber)) {
         toast({
           variant: "destructive",
           title: "Numéro de paiement invalide",
-          description: errorMessage
+          description: "Veuillez entrer un numéro valide pour le paiement"
         });
         return;
       }
     } else if (step === 4) {
-      // Lancer l'animation de paiement
+      // Traitement du transfert
       setIsProcessing(true);
-      setShowPaymentAnimation(true);
+      
+      // Simulation d'un traitement avec délai
+      setTimeout(() => {
+        setIsProcessing(false);
+        setIsConfirmed(true);
+        setStep(5);
+        
+        toast({
+          title: "Transfert réussi",
+          description: `${amount} F ont été transférés au numéro ${phoneNumber}`
+        });
+      }, 2000);
+      
       return;
     } else if (step === 5) {
       // Retour au tableau de bord
@@ -184,38 +141,6 @@ const TransferService = () => {
       navigate("/dashboard");
     }
   };
-
-  // Fonction appelée quand l'animation de paiement est terminée
-  const handlePaymentAnimationComplete = () => {
-    setShowPaymentAnimation(false);
-    setIsProcessing(false);
-    setStep(5);
-    
-    toast({
-      title: "Transfert réussi",
-      description: `${amount} F ont été transférés au numéro ${phoneNumber}`
-    });
-  };
-
-  // Obtenir le préfixe du moyen de paiement actuellement sélectionné
-  const getSelectedPaymentMethodPrefix = () => {
-    const selectedMethod = PAYMENT_METHODS.find(method => method.id === paymentMethod);
-    return selectedMethod?.prefix || "";
-  };
-
-  // Obtenir le nom du moyen de paiement pour l'affichage
-  const getPaymentMethodName = () => {
-    if (paymentMethod === "pay-later") {
-      return "Payer plus tard";
-    }
-    return PAYMENT_METHODS.find(m => m.id === paymentMethod)?.name || paymentMethod;
-  };
-
-  // Gestion du changement de méthode de paiement pour réinitialiser le numéro si nécessaire
-  useEffect(() => {
-    // Réinitialiser le numéro de paiement lors du changement de méthode
-    setPaymentNumber("");
-  }, [paymentMethod]);
 
   // Rendu des différentes étapes
   const renderStep = () => {
@@ -309,30 +234,35 @@ const TransferService = () => {
                 onValueChange={setPaymentMethod}
                 className="space-y-4"
               >
-                {/* Options de paiement mobile */}
-                {PAYMENT_METHODS.map((method) => (
-                  <div key={method.id} className="flex items-center space-x-2 border p-3 rounded-lg">
-                    <RadioGroupItem value={method.id} id={method.id} />
-                    <Label htmlFor={method.id} className="flex-1 flex items-center cursor-pointer">
-                      <div className="w-10 h-10 mr-3 flex items-center justify-center overflow-hidden">
-                        <img 
-                          src={method.logo} 
-                          alt={method.name} 
-                          className="w-8 h-8 object-contain rounded-md"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-medium">{method.name}</p>
-                        <p className="text-xs text-muted-foreground">{method.description}</p>
-                      </div>
-                    </Label>
-                  </div>
-                ))}
+                <div className="flex items-center space-x-2 border p-3 rounded-lg">
+                  <RadioGroupItem value="mobile-money" id="mobile-money" />
+                  <Label htmlFor="mobile-money" className="flex-1 flex items-center cursor-pointer">
+                    <div className="p-2 bg-primary/10 rounded-full mr-3">
+                      <Phone size={18} className="text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Mobile Money</p>
+                      <p className="text-xs text-muted-foreground">Paiement via votre compte mobile</p>
+                    </div>
+                  </Label>
+                </div>
                 
-                {/* Option "Payer plus tard" */}
-                <div className="flex items-center space-x-2 border p-3 rounded-lg mt-6">
-                  <RadioGroupItem value="pay-later" id="pay-later" />
-                  <Label htmlFor="pay-later" className="flex-1 flex items-center cursor-pointer">
+                <div className="flex items-center space-x-2 border p-3 rounded-lg">
+                  <RadioGroupItem value="card" id="card" />
+                  <Label htmlFor="card" className="flex-1 flex items-center cursor-pointer">
+                    <div className="p-2 bg-primary/10 rounded-full mr-3">
+                      <CreditCard size={18} className="text-primary" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Carte bancaire</p>
+                      <p className="text-xs text-muted-foreground">Paiement par carte VISA ou Mastercard</p>
+                    </div>
+                  </Label>
+                </div>
+                
+                <div className="flex items-center space-x-2 border p-3 rounded-lg">
+                  <RadioGroupItem value="later" id="later" />
+                  <Label htmlFor="later" className="flex-1 flex items-center cursor-pointer">
                     <div className="p-2 bg-primary/10 rounded-full mr-3">
                       <Clock size={18} className="text-primary" />
                     </div>
@@ -345,34 +275,48 @@ const TransferService = () => {
               </RadioGroup>
             </div>
             
-            {paymentMethod !== "pay-later" && (
-              <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">
-                  Numéro {paymentMethod !== "wave" ? PAYMENT_METHODS.find(m => m.id === paymentMethod)?.name : "Wave"}
-                </label>
-                <div className="relative">
-                  <Input
-                    className="pl-10 py-3"
-                    placeholder={
-                      paymentMethod !== "wave" 
-                        ? `${getSelectedPaymentMethodPrefix()} XX XX XX XX` 
-                        : "Numéro à 10 chiffres"
-                    }
-                    value={paymentNumber}
-                    onChange={(e) => setPaymentNumber(e.target.value.replace(/\D/g, ''))}
-                    maxLength={10}
-                  />
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+            <div className="mb-6">
+              <label className="block text-sm font-medium mb-2">
+                {paymentMethod === "mobile-money" 
+                  ? "Numéro Mobile Money" 
+                  : paymentMethod === "card" 
+                    ? "Numéro de carte" 
+                    : "Numéro de référence"}
+              </label>
+              <div className="relative">
+                <Input
+                  className="pl-10 py-3"
+                  placeholder={paymentMethod === "mobile-money" 
+                    ? "07 XX XX XX XX" 
+                    : paymentMethod === "card" 
+                      ? "4XXX XXXX XXXX XXXX"
+                      : "REF-XXXXX"}
+                  value={paymentNumber}
+                  onChange={(e) => setPaymentNumber(
+                    paymentMethod === "mobile-money" 
+                      ? e.target.value.replace(/\D/g, '') 
+                      : e.target.value
+                  )}
+                  maxLength={paymentMethod === "mobile-money" ? 10 : 20}
+                />
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
+                  {paymentMethod === "mobile-money" ? (
                     <Phone size={18} className="text-primary/60" />
-                  </div>
+                  ) : paymentMethod === "card" ? (
+                    <CreditCard size={18} className="text-primary/60" />
+                  ) : (
+                    <Clock size={18} className="text-primary/60" />
+                  )}
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  {paymentMethod !== "wave"
-                    ? `Le numéro doit commencer par ${getSelectedPaymentMethodPrefix()} et avoir 10 chiffres`
-                    : "Entrez votre numéro Wave (10 chiffres)"}
-                </p>
               </div>
-            )}
+              <p className="text-xs text-muted-foreground mt-2">
+                {paymentMethod === "mobile-money" 
+                  ? "Entrez votre numéro Mobile Money" 
+                  : paymentMethod === "card" 
+                    ? "Entrez votre numéro de carte sans espaces" 
+                    : "Un code de référence sera généré"}
+              </p>
+            </div>
           </div>
         );
       
@@ -406,18 +350,28 @@ const TransferService = () => {
               <CardContent className="p-4 space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-muted-foreground">Moyen de paiement</span>
-                  <span className="font-medium">
-                    {paymentMethod === "pay-later" 
-                      ? "Payer plus tard" 
-                      : PAYMENT_METHODS.find(m => m.id === paymentMethod)?.name || paymentMethod}
+                  <span className="font-medium capitalize">
+                    {paymentMethod === "mobile-money" 
+                      ? "Mobile Money" 
+                      : paymentMethod === "card" 
+                        ? "Carte bancaire" 
+                        : "Paiement différé"}
                   </span>
                 </div>
-                {paymentMethod !== "pay-later" && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Numéro</span>
-                    <span className="font-medium">{paymentNumber}</span>
-                  </div>
-                )}
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">
+                    {paymentMethod === "mobile-money" 
+                      ? "Numéro" 
+                      : paymentMethod === "card" 
+                        ? "Carte" 
+                        : "Référence"}
+                  </span>
+                  <span className="font-medium">
+                    {paymentMethod === "card" 
+                      ? `xxxx-xxxx-xxxx-${paymentNumber.slice(-4)}` 
+                      : paymentNumber}
+                  </span>
+                </div>
               </CardContent>
             </Card>
             
@@ -429,14 +383,43 @@ const TransferService = () => {
       
       case 5:
         return (
-          <TransferSuccess 
-            phoneNumber={phoneNumber}
-            operator={operator}
-            amount={amount}
-            total={total}
-            paymentMethod={getPaymentMethodName()}
-            paymentNumber={paymentMethod !== "pay-later" ? paymentNumber : undefined}
-          />
+          <div className="animate-fade-in text-center py-6">
+            <div className="inline-flex items-center justify-center h-24 w-24 rounded-full bg-green-100 mb-6">
+              <CheckCircle2 size={48} className="text-green-600" />
+            </div>
+            
+            <h2 className="text-xl font-semibold mb-2">Transfert réussi!</h2>
+            <p className="text-muted-foreground mb-6">
+              Votre transfert de <strong>{amount} F</strong> vers le numéro <strong>{phoneNumber}</strong> ({operator}) a été effectué avec succès.
+            </p>
+            
+            <Card className="border mb-6">
+              <CardContent className="p-4 space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">ID Transaction</span>
+                  <span className="font-medium">TRX{Math.floor(Math.random() * 1000000)}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Date & Heure</span>
+                  <span className="font-medium">{new Date().toLocaleString('fr-FR')}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Montant total</span>
+                  <span className="font-medium">{total} F</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Moyen de paiement</span>
+                  <span className="font-medium capitalize">
+                    {paymentMethod === "mobile-money" 
+                      ? "Mobile Money" 
+                      : paymentMethod === "card" 
+                        ? "Carte bancaire" 
+                        : "Paiement différé"}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         );
       
       default:
@@ -502,10 +485,6 @@ const TransferService = () => {
 
   return (
     <Layout>
-      {showPaymentAnimation && (
-        <PaymentAnimation onComplete={handlePaymentAnimationComplete} />
-      )}
-      
       <div className="page-container pt-4 pb-24">
         <div className="flex items-center mb-6">
           <button
