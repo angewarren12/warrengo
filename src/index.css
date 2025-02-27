@@ -1,4 +1,5 @@
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -108,6 +109,10 @@
     @apply bg-gradient-to-r from-primary to-secondary text-white px-6 py-2.5 rounded-full flex items-center font-medium hover:shadow-lg transition-all;
   }
   
+  .btn-sm-primary {
+    @apply bg-gradient-to-r from-primary to-secondary text-white rounded-full flex items-center font-medium text-xs hover:shadow-lg transition-all;
+  }
+  
   .input-field {
     @apply w-full p-2 border rounded-lg focus:ring-2 focus:ring-primary/30 focus-visible:outline-none;
   }
@@ -143,3 +148,4 @@
     @apply px-4 py-4;
   }
 }
+

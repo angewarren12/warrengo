@@ -103,7 +103,7 @@ const Dashboard = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent"></div>
             <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-br-2xl opacity-80"></div>
             
-            <CardHeader className="pt-8 pb-2 z-10 relative">
+            <div className="p-4 pt-5 z-10 relative">
               <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center -translate-y-1/4 -translate-x-1/4">
                 <div className="w-14 h-14 bg-white rounded-full shadow-lg p-3 flex items-center justify-center">
                   <div className="p-1.5 rounded-full bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white transition-all duration-300 group-hover:scale-110">
@@ -111,19 +111,19 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <CardTitle className="text-base ml-10 flex items-center">
-                Transfert d'unités
-              </CardTitle>
-            </CardHeader>
-            
-            <CardContent className="relative z-10">
-              <p className="text-xs text-muted-foreground mb-3 pl-10">
-                Envoyez des unités vers n'importe quel numéro
-              </p>
-              <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md mt-2 group-hover:bg-gradient-to-r group-hover:from-[#7B4CE6] group-hover:to-[#C936DF]">
-                Transférer
-              </button>
-            </CardContent>
+              
+              <div className="flex flex-col space-y-2 relative z-10">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-semibold ml-10">Transfert d'unités</h3>
+                  <button className="btn-sm-primary px-3 py-1 text-sm transition-all duration-300 hover:shadow-md group-hover:bg-gradient-to-r group-hover:from-[#7B4CE6] group-hover:to-[#C936DF]">
+                    Transférer
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground ml-10">
+                  Envoyez des unités vers n'importe quel numéro
+                </p>
+              </div>
+            </div>
           </Card>
           
           {/* Carte de souscription avec design amélioré */}
@@ -131,7 +131,7 @@ const Dashboard = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent"></div>
             <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-br-2xl opacity-80"></div>
             
-            <CardHeader className="pt-8 pb-2 z-10 relative">
+            <div className="p-4 pt-5 z-10 relative">
               <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center -translate-y-1/4 -translate-x-1/4">
                 <div className="w-14 h-14 bg-white rounded-full shadow-lg p-3 flex items-center justify-center">
                   <div className="p-1.5 rounded-full bg-gradient-to-br from-[#0EA5E9] to-[#8B5CF6] text-white transition-all duration-300 group-hover:scale-110">
@@ -139,19 +139,19 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
-              <CardTitle className="text-base ml-10 flex items-center">
-                Souscription
-              </CardTitle>
-            </CardHeader>
-            
-            <CardContent className="relative z-10">
-              <p className="text-xs text-muted-foreground mb-3 pl-10">
-                Internet ou appels, choisissez votre forfait
-              </p>
-              <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md mt-2 group-hover:bg-gradient-to-r group-hover:from-[#0D95D9] group-hover:to-[#7B4CE6]">
-                Souscrire
-              </button>
-            </CardContent>
+              
+              <div className="flex flex-col space-y-2 relative z-10">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-semibold ml-10">Souscription</h3>
+                  <button className="btn-sm-primary px-3 py-1 text-sm transition-all duration-300 hover:shadow-md group-hover:bg-gradient-to-r group-hover:from-[#0D95D9] group-hover:to-[#7B4CE6]">
+                    Souscrire
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground ml-10">
+                  Internet ou appels, choisissez votre forfait
+                </p>
+              </div>
+            </div>
           </Card>
         </div>
         
