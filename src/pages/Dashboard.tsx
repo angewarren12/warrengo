@@ -98,10 +98,10 @@ const Dashboard = () => {
         {/* Services en ligne horizontale */}
         <h2 className="text-lg font-semibold mb-3">Services</h2>
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <Card className="glass-card border-0">
+          <Card className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-primary/20 cursor-pointer">
             <CardHeader className="pb-2">
               <CardTitle className="text-base flex items-center">
-                <div className="mr-2 p-2 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] text-white">
+                <div className="mr-2 p-2 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] text-white transition-all duration-300 group-hover:scale-110">
                   <Phone size={16} />
                 </div>
                 Transfert d'unités
@@ -111,16 +111,16 @@ const Dashboard = () => {
               <p className="text-xs text-muted-foreground mb-2">
                 Envoyez des unités vers n'importe quel numéro
               </p>
-              <button className="btn-primary w-full justify-center text-sm py-2">
+              <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md">
                 Transférer
               </button>
             </CardContent>
           </Card>
           
-          <Card className="glass-card border-0">
+          <Card className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-primary/20 cursor-pointer">
             <CardHeader className="pb-2">
               <CardTitle className="text-base flex items-center">
-                <div className="mr-2 p-2 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#8B5CF6] text-white">
+                <div className="mr-2 p-2 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#8B5CF6] text-white transition-all duration-300 group-hover:scale-110">
                   <Globe size={16} />
                 </div>
                 Souscription
@@ -130,7 +130,7 @@ const Dashboard = () => {
               <p className="text-xs text-muted-foreground mb-2">
                 Internet ou appels, choisissez votre forfait
               </p>
-              <button className="btn-primary w-full justify-center text-sm py-2">
+              <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md">
                 Souscrire
               </button>
             </CardContent>
