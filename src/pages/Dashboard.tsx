@@ -98,52 +98,50 @@ const Dashboard = () => {
         {/* Services en ligne horizontale */}
         <h2 className="text-lg font-semibold mb-3">Services</h2>
         <div className="grid grid-cols-2 gap-4 mb-6">
-          {/* Carte de transfert d'unités avec design amélioré */}
-          <Card className="glass-card relative border-0 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl group">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-br-2xl opacity-80"></div>
-            
-            <div className="p-4 pt-5 z-10 relative">
-              <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center -translate-y-1/4 -translate-x-1/4">
-                <div className="w-14 h-14 bg-white rounded-full shadow-lg p-3 flex items-center justify-center">
-                  <div className="p-1.5 rounded-full bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white transition-all duration-300 group-hover:scale-110">
-                    <Phone size={18} />
+          {/* Carte de transfert d'unités avec design inspiré de l'image */}
+          <Card className="glass-card overflow-hidden transition-all duration-300 hover:shadow-lg border-0">
+            <div className="relative">
+              {/* Fond violet avec l'icône */}
+              <div className="bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] h-14 w-full relative">
+                <div className="absolute -left-1 -top-1 w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center">
+                  <div className="p-2 text-[#8B5CF6]">
+                    <Phone size={20} />
                   </div>
                 </div>
               </div>
               
-              <div className="flex flex-col space-y-2 relative z-10">
-                <h3 className="text-base font-semibold ml-10">Transfert d'unités</h3>
-                <p className="text-xs text-muted-foreground ml-10 mb-2">
+              {/* Contenu de la carte */}
+              <div className="p-3 pt-2">
+                <h3 className="text-base font-semibold mb-1">Transfert d'unités</h3>
+                <p className="text-xs text-muted-foreground mb-3">
                   Envoyez des unités vers n'importe quel numéro
                 </p>
-                <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md group-hover:bg-gradient-to-r group-hover:from-[#7B4CE6] group-hover:to-[#C936DF]">
+                <button className="btn-primary w-full justify-center text-sm py-2">
                   Transférer
                 </button>
               </div>
             </div>
           </Card>
           
-          {/* Carte de souscription avec design amélioré */}
-          <Card className="glass-card relative border-0 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl group">
-            <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-br-2xl opacity-80"></div>
-            
-            <div className="p-4 pt-5 z-10 relative">
-              <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center -translate-y-1/4 -translate-x-1/4">
-                <div className="w-14 h-14 bg-white rounded-full shadow-lg p-3 flex items-center justify-center">
-                  <div className="p-1.5 rounded-full bg-gradient-to-br from-[#0EA5E9] to-[#8B5CF6] text-white transition-all duration-300 group-hover:scale-110">
-                    <Globe size={18} />
+          {/* Carte de souscription avec design inspiré de l'image */}
+          <Card className="glass-card overflow-hidden transition-all duration-300 hover:shadow-lg border-0">
+            <div className="relative">
+              {/* Fond bleu avec l'icône */}
+              <div className="bg-gradient-to-r from-[#0EA5E9] to-[#6366F1] h-14 w-full relative">
+                <div className="absolute -left-1 -top-1 w-12 h-12 bg-white rounded-full shadow-md flex items-center justify-center">
+                  <div className="p-2 text-[#0EA5E9]">
+                    <Globe size={20} />
                   </div>
                 </div>
               </div>
               
-              <div className="flex flex-col space-y-2 relative z-10">
-                <h3 className="text-base font-semibold ml-10">Souscription</h3>
-                <p className="text-xs text-muted-foreground ml-10 mb-2">
+              {/* Contenu de la carte */}
+              <div className="p-3 pt-2">
+                <h3 className="text-base font-semibold mb-1">Souscription</h3>
+                <p className="text-xs text-muted-foreground mb-3">
                   Internet ou appels, choisissez votre forfait
                 </p>
-                <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md group-hover:bg-gradient-to-r group-hover:from-[#0D95D9] group-hover:to-[#7B4CE6]">
+                <button className="btn-primary w-full justify-center text-sm py-2">
                   Souscrire
                 </button>
               </div>
