@@ -8,6 +8,8 @@ import { Phone, ArrowRight, ArrowLeft, CheckCircle2, Clock } from "lucide-react"
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import PaymentAnimation from "@/components/PaymentAnimation";
+import TransferSuccess from "@/components/TransferSuccess";
 
 // Définition des opérateurs en fonction des préfixes
 const OPERATORS = {
@@ -60,7 +62,7 @@ const TransferService = () => {
   const [paymentMethod, setPaymentMethod] = useState("orange-money");
   const [paymentNumber, setPaymentNumber] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isConfirmed, setIsConfirmed] = useState(false);
+  const [showPaymentAnimation, setShowPaymentAnimation] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -160,21 +162,9 @@ const TransferService = () => {
         return;
       }
     } else if (step === 4) {
-      // Traitement du transfert
+      // Lancer l'animation de paiement
       setIsProcessing(true);
-      
-      // Simulation d'un traitement avec délai
-      setTimeout(() => {
-        setIsProcessing(false);
-        setIsConfirmed(true);
-        setStep(5);
-        
-        toast({
-          title: "Transfert réussi",
-          description: `${amount} F ont été transférés au numéro ${phoneNumber}`
-        });
-      }, 2000);
-      
+      setShowPaymentAnimation(true);
       return;
     } else if (step === 5) {
       // Retour au tableau de bord
@@ -195,10 +185,30 @@ const TransferService = () => {
     }
   };
 
+  // Fonction appelée quand l'animation de paiement est terminée
+  const handlePaymentAnimationComplete = () => {
+    setShowPaymentAnimation(false);
+    setIsProcessing(false);
+    setStep(5);
+    
+    toast({
+      title: "Transfert réussi",
+      description: `${amount} F ont été transférés au numéro ${phoneNumber}`
+    });
+  };
+
   // Obtenir le préfixe du moyen de paiement actuellement sélectionné
   const getSelectedPaymentMethodPrefix = () => {
     const selectedMethod = PAYMENT_METHODS.find(method => method.id === paymentMethod);
     return selectedMethod?.prefix || "";
+  };
+
+  // Obtenir le nom du moyen de paiement pour l'affichage
+  const getPaymentMethodName = () => {
+    if (paymentMethod === "pay-later") {
+      return "Payer plus tard";
+    }
+    return PAYMENT_METHODS.find(m => m.id === paymentMethod)?.name || paymentMethod;
   };
 
   // Gestion du changement de méthode de paiement pour réinitialiser le numéro si nécessaire
@@ -419,41 +429,14 @@ const TransferService = () => {
       
       case 5:
         return (
-          <div className="animate-fade-in text-center py-6">
-            <div className="inline-flex items-center justify-center h-24 w-24 rounded-full bg-green-100 mb-6">
-              <CheckCircle2 size={48} className="text-green-600" />
-            </div>
-            
-            <h2 className="text-xl font-semibold mb-2">Transfert réussi!</h2>
-            <p className="text-muted-foreground mb-6">
-              Votre transfert de <strong>{amount} F</strong> vers le numéro <strong>{phoneNumber}</strong> ({operator}) a été effectué avec succès.
-            </p>
-            
-            <Card className="border mb-6">
-              <CardContent className="p-4 space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">ID Transaction</span>
-                  <span className="font-medium">TRX{Math.floor(Math.random() * 1000000)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Date & Heure</span>
-                  <span className="font-medium">{new Date().toLocaleString('fr-FR')}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Montant total</span>
-                  <span className="font-medium">{total} F</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Moyen de paiement</span>
-                  <span className="font-medium">
-                    {paymentMethod === "pay-later" 
-                      ? "Payer plus tard" 
-                      : PAYMENT_METHODS.find(m => m.id === paymentMethod)?.name || paymentMethod}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <TransferSuccess 
+            phoneNumber={phoneNumber}
+            operator={operator}
+            amount={amount}
+            total={total}
+            paymentMethod={getPaymentMethodName()}
+            paymentNumber={paymentMethod !== "pay-later" ? paymentNumber : undefined}
+          />
         );
       
       default:
@@ -519,6 +502,10 @@ const TransferService = () => {
 
   return (
     <Layout>
+      {showPaymentAnimation && (
+        <PaymentAnimation onComplete={handlePaymentAnimationComplete} />
+      )}
+      
       <div className="page-container pt-4 pb-24">
         <div className="flex items-center mb-6">
           <button
