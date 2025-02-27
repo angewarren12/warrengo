@@ -44,16 +44,16 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="page-container flex flex-col justify-center">
+    <div className="min-h-screen flex flex-col justify-center p-4">
       <div className="glass-card rounded-xl p-8 mb-8 animate-fade-in">
         <div className="flex justify-center mb-6">
-          <div className="h-16 w-16 rounded-2xl bg-primary flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-tr from-primary/80 to-primary"></div>
+          <div className="h-16 w-16 rounded-2xl flex items-center justify-center relative overflow-hidden bg-gradient-to-tr from-[#8B5CF6] via-[#D946EF] to-[#F97316]">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
             <span className="text-white font-bold text-3xl relative z-10">I</span>
           </div>
         </div>
         
-        <h1 className="text-2xl font-bold text-center mb-2">Bienvenue</h1>
+        <h1 className="text-2xl font-bold text-center mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">Bienvenue</h1>
         <p className="text-muted-foreground text-center mb-8">Connectez-vous pour continuer</p>
         
         <form onSubmit={handleSubmit}>
@@ -99,7 +99,7 @@ const LoginPage = () => {
             
             <button
               type="submit"
-              className="btn-primary w-full"
+              className="btn-primary w-full justify-center"
               disabled={isLoading}
             >
               {isLoading ? (
