@@ -1,9 +1,10 @@
 
 import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, Copy, Share2 } from "lucide-react";
+import { CheckCircle2, Copy, Share2, Home } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import ReactConfetti from "react-confetti";
+import { useNavigate } from "react-router-dom";
 
 interface TransferSuccessProps {
   phoneNumber: string;
@@ -29,6 +30,7 @@ const TransferSuccess: React.FC<TransferSuccessProps> = ({
   const [showConfetti, setShowConfetti] = useState(true);
   const [transactionId] = useState(`TRX${Math.floor(Math.random() * 1000000)}`);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -77,6 +79,10 @@ const TransferSuccess: React.FC<TransferSuccessProps> = ({
         description: "Votre navigateur ne prend pas en charge cette fonctionnalité."
       });
     }
+  };
+
+  const handleGoHome = () => {
+    navigate("/dashboard");
   };
 
   return (
@@ -170,13 +176,23 @@ const TransferSuccess: React.FC<TransferSuccessProps> = ({
           </CardContent>
         </Card>
         
-        <button 
-          onClick={handleShare}
-          className="btn-sm-primary mx-auto px-4 py-2 mb-4"
-        >
-          <Share2 size={16} className="mr-2" />
-          Partager ce reçu
-        </button>
+        <div className="flex justify-center gap-3 mb-4">
+          <button 
+            onClick={handleGoHome}
+            className="btn-sm-secondary px-4 py-2"
+          >
+            <Home size={16} className="mr-2" />
+            Accueil
+          </button>
+          
+          <button 
+            onClick={handleShare}
+            className="btn-sm-primary px-4 py-2"
+          >
+            <Share2 size={16} className="mr-2" />
+            Partager
+          </button>
+        </div>
         
         <div className="bg-primary/5 rounded-lg p-4 max-w-xs mx-auto">
           <p className="text-xs text-muted-foreground">
