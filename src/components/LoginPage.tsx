@@ -44,8 +44,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center p-4">
-      <div className="bg-card shadow-lg rounded-xl p-8 mb-8">
+    <div className="page-container flex flex-col justify-center">
+      <div className="glass-card rounded-xl p-8 mb-8 animate-fade-in">
         <div className="flex justify-center mb-6">
           <div className="h-16 w-16 rounded-2xl bg-primary flex items-center justify-center relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/80 to-primary"></div>
@@ -69,7 +69,7 @@ const LoginPage = () => {
                 <input
                   id="phoneNumber"
                   type="tel"
-                  className={`w-full p-2 pl-10 border rounded-md ${errors.phoneNumber ? 'border-red-500' : 'border-input'}`}
+                  className={`input-field pl-10 ${errors.phoneNumber ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                   placeholder="07XXXXXXXX"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -87,7 +87,7 @@ const LoginPage = () => {
               <input
                 id="password"
                 type="password"
-                className={`w-full p-2 border rounded-md ${errors.password ? 'border-red-500' : 'border-input'}`}
+                className={`input-field ${errors.password ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -99,7 +99,7 @@ const LoginPage = () => {
             
             <button
               type="submit"
-              className="w-full bg-primary text-white p-2 rounded-md flex items-center justify-center"
+              className="btn-primary w-full"
               disabled={isLoading}
             >
               {isLoading ? (
