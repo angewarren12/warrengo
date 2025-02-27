@@ -2,8 +2,11 @@
 import { Layout } from "@/components/layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Phone, Globe, Wallet, QrCode, ArrowDownLeft, ArrowUpRight, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  
   // Données fictives pour l'historique
   const transactions = [
     { 
@@ -34,6 +37,11 @@ const Dashboard = () => {
       status: "Réussi"
     }
   ];
+
+  // Fonction pour naviguer vers la page de transfert
+  const handleTransferClick = () => {
+    navigate("/transfer");
+  };
 
   return (
     <Layout>
@@ -116,7 +124,10 @@ const Dashboard = () => {
                 <p className="text-xs text-muted-foreground mb-3">
                   Envoyez des unités vers n'importe quel numéro
                 </p>
-                <button className="btn-primary w-full justify-center text-sm py-2">
+                <button 
+                  className="btn-primary w-full justify-center text-sm py-2"
+                  onClick={handleTransferClick}
+                >
                   Transférer
                 </button>
               </div>

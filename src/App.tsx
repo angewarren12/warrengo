@@ -1,38 +1,33 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import SplashScreen from "@/components/SplashScreen";
+import LoginPage from "@/components/LoginPage";
+import OnboardingPage from "@/components/OnboardingPage";
+import Dashboard from "@/pages/Dashboard";
+import Profile from "@/pages/Profile";
+import NotFound from "@/pages/NotFound";
 import { AuthProvider } from "@/context/AuthContext";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import LoginPage from "./components/LoginPage";
-import OnboardingPage from "./components/OnboardingPage";
-import SplashScreen from "./components/SplashScreen";
-import Dashboard from "./pages/Dashboard";
+import { Toaster } from "@/components/ui/toaster";
+import TransferService from "@/pages/TransferService";
+import "./App.css";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<SplashScreen />} />
-            <Route path="/index" element={<Index />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/onboarding" element={<OnboardingPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<SplashScreen />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/transfer" element={<TransferService />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Toaster />
+      </AuthProvider>
+    </BrowserRouter>
+  );
+}
 
 export default App;
