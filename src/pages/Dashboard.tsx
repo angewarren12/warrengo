@@ -98,39 +98,57 @@ const Dashboard = () => {
         {/* Services en ligne horizontale */}
         <h2 className="text-lg font-semibold mb-3">Services</h2>
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <Card className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-primary/20 cursor-pointer">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center">
-                <div className="mr-2 p-2 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] text-white transition-all duration-300 group-hover:scale-110">
-                  <Phone size={16} />
+          {/* Carte de transfert d'unités avec design amélioré */}
+          <Card className="glass-card relative border-0 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent"></div>
+            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-br-2xl opacity-80"></div>
+            
+            <CardHeader className="pt-8 pb-2 z-10 relative">
+              <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center -translate-y-1/4 -translate-x-1/4">
+                <div className="w-14 h-14 bg-white rounded-full shadow-lg p-3 flex items-center justify-center">
+                  <div className="p-1.5 rounded-full bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] text-white transition-all duration-300 group-hover:scale-110">
+                    <Phone size={18} />
+                  </div>
                 </div>
+              </div>
+              <CardTitle className="text-base ml-10 flex items-center">
                 Transfert d'unités
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-xs text-muted-foreground mb-2">
+            
+            <CardContent className="relative z-10">
+              <p className="text-xs text-muted-foreground mb-3 pl-10">
                 Envoyez des unités vers n'importe quel numéro
               </p>
-              <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md">
+              <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md mt-2 group-hover:bg-gradient-to-r group-hover:from-[#7B4CE6] group-hover:to-[#C936DF]">
                 Transférer
               </button>
             </CardContent>
           </Card>
           
-          <Card className="glass-card border-0 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-primary/20 cursor-pointer">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center">
-                <div className="mr-2 p-2 rounded-full bg-gradient-to-r from-[#0EA5E9] to-[#8B5CF6] text-white transition-all duration-300 group-hover:scale-110">
-                  <Globe size={16} />
+          {/* Carte de souscription avec design amélioré */}
+          <Card className="glass-card relative border-0 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl group">
+            <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent"></div>
+            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-br-2xl opacity-80"></div>
+            
+            <CardHeader className="pt-8 pb-2 z-10 relative">
+              <div className="absolute top-0 left-0 w-12 h-12 flex items-center justify-center -translate-y-1/4 -translate-x-1/4">
+                <div className="w-14 h-14 bg-white rounded-full shadow-lg p-3 flex items-center justify-center">
+                  <div className="p-1.5 rounded-full bg-gradient-to-br from-[#0EA5E9] to-[#8B5CF6] text-white transition-all duration-300 group-hover:scale-110">
+                    <Globe size={18} />
+                  </div>
                 </div>
+              </div>
+              <CardTitle className="text-base ml-10 flex items-center">
                 Souscription
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-xs text-muted-foreground mb-2">
+            
+            <CardContent className="relative z-10">
+              <p className="text-xs text-muted-foreground mb-3 pl-10">
                 Internet ou appels, choisissez votre forfait
               </p>
-              <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md">
+              <button className="btn-primary w-full justify-center text-sm py-2 transition-all duration-300 hover:shadow-md mt-2 group-hover:bg-gradient-to-r group-hover:from-[#0D95D9] group-hover:to-[#7B4CE6]">
                 Souscrire
               </button>
             </CardContent>
