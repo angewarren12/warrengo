@@ -9,6 +9,7 @@ import NotFound from "@/pages/NotFound";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/toaster";
 import TransferService from "@/pages/TransferService";
+import SubscriptionService from "@/pages/SubscriptionService";
 import "./App.css";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/transfer" element={<TransferService />} />
+          <Route path="/subscription" element={<SubscriptionService />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Toaster />
