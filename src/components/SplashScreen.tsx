@@ -20,14 +20,17 @@ const SplashScreen = () => {
         console.log("Navigation timer triggered");
         // If the user has seen onboarding and is logged in, go to dashboard
         if (hasSeenOnboarding && user?.isAuthenticated) {
+          console.log("Navigating to dashboard");
           navigate("/dashboard");
         } 
         // If user has seen onboarding but is not logged in, go to login
         else if (hasSeenOnboarding) {
+          console.log("Navigating to login");
           navigate("/login");
         } 
         // Otherwise, go to onboarding
         else {
+          console.log("Navigating to onboarding");
           navigate("/onboarding");
         }
       }, 1000); // Wait 1 second after animation completes

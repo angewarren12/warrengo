@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import LoginPage from "./components/LoginPage";
 import OnboardingPage from "./components/OnboardingPage";
 import SplashScreen from "./components/SplashScreen";
+import Dashboard from "./pages/Dashboard";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/index" element={<Index />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
