@@ -46,7 +46,9 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
   // Fonction pour faire défiler les catégories
   const scrollTabs = (direction: 'left' | 'right') => {
     if (tabsListRef.current) {
-      const scrollAmount = direction === 'left' ? -150 : 150;
+      const containerWidth = tabsListRef.current.clientWidth;
+      const scrollAmount = direction === 'left' ? -containerWidth / 2 : containerWidth / 2;
+      
       tabsListRef.current.scrollBy({
         left: scrollAmount,
         behavior: 'smooth'
@@ -77,6 +79,24 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
     }
   }, [activeCategory]);
 
+  // S'assurer que les TabsTriggers sont suffisamment espacés pour être visibles
+  useEffect(() => {
+    // Forcer un petit délai pour s'assurer que les éléments DOM sont bien rendus
+    if (operator === "Orange" && subscriptionType === "internet") {
+      const timer = setTimeout(() => {
+        if (tabsListRef.current) {
+          // Forcer le rafraîchissement du défilement pour s'assurer que les onglets sont visibles
+          tabsListRef.current.style.display = 'none';
+          // Forcer un reflow
+          void tabsListRef.current.offsetHeight;
+          tabsListRef.current.style.display = 'flex';
+        }
+      }, 100);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [operator, subscriptionType]);
+
   return (
     <div className="animate-fade-in">
       <h2 className="text-xl font-semibold mb-4 text-center">Forfaits disponibles</h2>
@@ -92,14 +112,14 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
       ) : (
         <div className="space-y-5">
           {operator === "Orange" && subscriptionType === "internet" && (
-            <div className="relative">
-              {/* Boutons de défilement toujours visibles */}
+            <div className="relative flex items-center">
               <button 
                 onClick={() => scrollTabs('left')} 
-                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 dark:bg-background/50 rounded-full p-1.5 shadow-md border"
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-background/90 dark:bg-background/90 rounded-full p-1.5 shadow-md border"
                 aria-label="Défiler vers la gauche"
+                type="button"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={18} />
               </button>
               
               <Tabs 
@@ -107,10 +127,10 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
                 onValueChange={(value) => setActiveCategory(value)}
                 className="w-full"
               >
-                <div className="mx-7 overflow-hidden">
+                <div className="mx-8 overflow-hidden">
                   <TabsList 
                     ref={tabsListRef}
-                    className="w-max mb-3 flex overflow-x-auto py-1.5 px-0.5 no-scrollbar"
+                    className="w-max flex overflow-x-scroll py-1.5 px-0.5 no-scrollbar"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                   >
                     {ORANGE_INTERNET_CATEGORIES.map((category) => (
@@ -136,10 +156,11 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
               
               <button 
                 onClick={() => scrollTabs('right')} 
-                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 dark:bg-background/50 rounded-full p-1.5 shadow-md border"
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-background/90 dark:bg-background/90 rounded-full p-1.5 shadow-md border"
                 aria-label="Défiler vers la droite"
+                type="button"
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={18} />
               </button>
             </div>
           )}

@@ -90,16 +90,19 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
   };
 
   return (
-    <div className="animate-fade-in text-center py-6 relative overflow-hidden">
-      {showConfetti && (
-        <ReactConfetti
-          width={windowSize.width}
-          height={windowSize.height}
-          recycle={true}
-          numberOfPieces={200}
-          gravity={0.15}
-        />
-      )}
+    <div className="animate-fade-in text-center py-6 relative">
+      {/* Position des confettis au premier plan avec un z-index élevé */}
+      <div className="fixed inset-0 pointer-events-none z-50">
+        {showConfetti && (
+          <ReactConfetti
+            width={windowSize.width}
+            height={windowSize.height}
+            recycle={true}
+            numberOfPieces={200}
+            gravity={0.15}
+          />
+        )}
+      </div>
       
       <div className="relative z-10">
         <div className="inline-flex items-center justify-center h-28 w-28 rounded-full bg-gradient-to-r from-green-100 to-green-50 mb-6 shadow-md">
