@@ -63,11 +63,18 @@ const SubscriptionService = () => {
       );
       setCommission(commissionValue);
       setTotal(totalValue);
+      
+      // Passage automatique à l'étape suivante lorsqu'un plan est sélectionné
+      if (step === 3) {
+        setTimeout(() => {
+          setStep(4);
+        }, 300);
+      }
     } else {
       setCommission(0);
       setTotal(0);
     }
-  }, [selectedPlan]);
+  }, [selectedPlan, step]);
 
   // Gestion du changement de méthode de paiement pour réinitialiser le numéro si nécessaire
   useEffect(() => {
@@ -188,6 +195,7 @@ const SubscriptionService = () => {
           <SubscriptionTypeStep 
             subscriptionType={subscriptionType}
             setSubscriptionType={setSubscriptionType}
+            onAutoAdvance={() => setStep(3)}
           />
         );
       
@@ -263,8 +271,11 @@ const SubscriptionService = () => {
   const getButtonText = () => {
     switch (step) {
       case 1:
+        return "Continuer";
       case 2:
       case 3:
+        // Masquer le texte du bouton pour ces étapes
+        return "";
       case 4:
         return "Continuer";
       case 5:
@@ -274,6 +285,14 @@ const SubscriptionService = () => {
       default:
         return "Continuer";
     }
+  };
+
+  // Déterminer si le bouton "Continuer" doit être affiché
+  const shouldShowContinueButton = () => {
+    // Ne pas afficher le bouton pour les étapes 2 et 3 (passage automatique)
+    if (step === 2) return false;
+    if (step === 3 && !selectedPlan) return false;
+    return true;
   };
 
   return (
@@ -295,20 +314,22 @@ const SubscriptionService = () => {
 
         {step < 6 && <StepIndicator currentStep={step} totalSteps={5} />}
 
-        <div className="mb-6">
+        <div className="mb-6 mx-auto" style={{ maxWidth: '100%', overflowX: 'hidden' }}>
           {renderStep()}
         </div>
 
-        <div className="fixed bottom-16 left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t">
-          <button
-            className={`btn-primary w-full ${isProcessing ? "opacity-80" : ""}`}
-            onClick={handleNext}
-            disabled={isProcessing}
-          >
-            {getButtonText()}
-            {!isProcessing && step < 6 && <ArrowRight size={16} className="ml-2" />}
-          </button>
-        </div>
+        {shouldShowContinueButton() && (
+          <div className="fixed bottom-16 left-0 right-0 p-4 bg-background/80 backdrop-blur-md border-t">
+            <button
+              className={`btn-primary w-full ${isProcessing ? "opacity-80" : ""}`}
+              onClick={handleNext}
+              disabled={isProcessing}
+            >
+              {getButtonText()}
+              {!isProcessing && step < 6 && step !== 2 && step !== 3 && <ArrowRight size={16} className="ml-2" />}
+            </button>
+          </div>
+        )}
       </div>
     </Layout>
   );

@@ -1,5 +1,6 @@
 
-import { OPERATORS, SUBSCRIPTION_PLANS, PAYMENT_METHODS } from "@/data/subscriptionData";
+import { OPERATORS, PAYMENT_METHODS } from "@/data/subscriptionData";
+import { SUBSCRIPTION_PLANS } from "@/data/plansData";
 
 // Fonction pour valider le numéro de téléphone
 export const validatePhoneNumber = (number: string) => {
