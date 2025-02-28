@@ -29,7 +29,7 @@ const SubscriptionService = () => {
   const [step, setStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [operator, setOperator] = useState("");
-  const [subscriptionType, setSubscriptionType] = useState("internet");
+  const [subscriptionType, setSubscriptionType] = useState("");
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
   const [commission, setCommission] = useState(0);
   const [total, setTotal] = useState(0);
