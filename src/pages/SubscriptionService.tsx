@@ -212,6 +212,16 @@ const SubscriptionService = () => {
         return;
       }
     } else if (step === 2) {
+      // Vérifier uniquement que l'utilisateur a sélectionné un type de forfait
+      if (!subscriptionType) {
+        toast({
+          variant: "destructive",
+          title: "Aucun type de forfait sélectionné",
+          description: "Veuillez sélectionner un type de forfait pour continuer"
+        });
+        return;
+      }
+    } else if (step === 3) {
       if (!selectedPlan) {
         toast({
           variant: "destructive",
@@ -220,7 +230,7 @@ const SubscriptionService = () => {
         });
         return;
       }
-    } else if (step === 3) {
+    } else if (step === 4) {
       if (paymentMethod !== "pay-later" && !validatePaymentNumber(paymentNumber)) {
         const selectedMethod = PAYMENT_METHODS.find(method => method.id === paymentMethod);
         let errorMessage = "Veuillez entrer un numéro valide pour le paiement";
@@ -238,12 +248,12 @@ const SubscriptionService = () => {
         });
         return;
       }
-    } else if (step === 4) {
+    } else if (step === 5) {
       // Lancer l'animation de paiement
       setIsProcessing(true);
       setShowPaymentAnimation(true);
       return;
-    } else if (step === 5) {
+    } else if (step === 6) {
       // Retour au tableau de bord
       navigate("/dashboard");
       return;
@@ -266,7 +276,7 @@ const SubscriptionService = () => {
   const handlePaymentAnimationComplete = () => {
     setShowPaymentAnimation(false);
     setIsProcessing(false);
-    setStep(5);
+    setStep(6);
     
     toast({
       title: "Souscription réussie",
@@ -364,56 +374,59 @@ const SubscriptionService = () => {
                 ))}
               </RadioGroup>
             </div>
-            
-            <div className="mb-6">
-              <h3 className="text-base font-medium mb-3">Forfaits disponibles</h3>
-              
-              {getAvailablePlans().length === 0 ? (
-                <div className="text-center p-6 border rounded-lg">
-                  <p className="text-muted-foreground">
-                    {operator 
-                      ? `Aucun forfait ${subscriptionType === "internet" ? "internet" : "appel"} disponible pour ${operator}`
-                      : "Veuillez d'abord sélectionner un numéro de téléphone valide"}
-                  </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 gap-3">
-                  {getAvailablePlans().map((plan) => (
-                    <div
-                      key={plan.id}
-                      className={`border p-4 rounded-lg transition-colors cursor-pointer ${
-                        selectedPlan?.id === plan.id
-                          ? "border-primary bg-primary/5"
-                          : "hover:border-primary/50"
-                      }`}
-                      onClick={() => setSelectedPlan(plan)}
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-semibold">{plan.name}</h4>
-                        <span className="font-bold text-primary">{plan.price} F</span>
-                      </div>
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-muted-foreground">
-                          {subscriptionType === "internet" ? "Volume" : "Minutes"}:
-                        </span>
-                        <span className="font-medium">
-                          {subscriptionType === "internet" ? plan.data : plan.minutes}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm mb-2">
-                        <span className="text-muted-foreground">Validité:</span>
-                        <span className="font-medium">{plan.validity}</span>
-                      </div>
-                      <p className="text-xs text-muted-foreground">{plan.description}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
           </div>
         );
       
       case 3:
+        return (
+          <div className="animate-fade-in">
+            <h2 className="text-xl font-semibold mb-4 text-center">Forfaits disponibles</h2>
+            
+            {getAvailablePlans().length === 0 ? (
+              <div className="text-center p-6 border rounded-lg">
+                <p className="text-muted-foreground">
+                  {operator 
+                    ? `Aucun forfait ${subscriptionType === "internet" ? "internet" : "appel"} disponible pour ${operator}`
+                    : "Veuillez d'abord sélectionner un numéro de téléphone valide"}
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-3">
+                {getAvailablePlans().map((plan) => (
+                  <div
+                    key={plan.id}
+                    className={`border p-4 rounded-lg transition-colors cursor-pointer ${
+                      selectedPlan?.id === plan.id
+                        ? "border-primary bg-primary/5"
+                        : "hover:border-primary/50"
+                    }`}
+                    onClick={() => setSelectedPlan(plan)}
+                  >
+                    <div className="flex justify-between items-center mb-2">
+                      <h4 className="font-semibold">{plan.name}</h4>
+                      <span className="font-bold text-primary">{plan.price} F</span>
+                    </div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-muted-foreground">
+                        {subscriptionType === "internet" ? "Volume" : "Minutes"}:
+                      </span>
+                      <span className="font-medium">
+                        {subscriptionType === "internet" ? plan.data : plan.minutes}
+                      </span>
+                    </div>
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-muted-foreground">Validité:</span>
+                      <span className="font-medium">{plan.validity}</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">{plan.description}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      
+      case 4:
         return (
           <div className="animate-fade-in">
             <h2 className="text-xl font-semibold mb-4 text-center">Moyen de paiement</h2>
@@ -491,7 +504,7 @@ const SubscriptionService = () => {
           </div>
         );
       
-      case 4:
+      case 5:
         return (
           <div className="animate-fade-in">
             <h2 className="text-xl font-semibold mb-4 text-center">Confirmation</h2>
@@ -562,7 +575,7 @@ const SubscriptionService = () => {
           </div>
         );
       
-      case 5:
+      case 6:
         return (
           <SubscriptionSuccess 
             phoneNumber={phoneNumber}
@@ -586,12 +599,14 @@ const SubscriptionService = () => {
       case 1:
         return "Souscription forfait";
       case 2:
-        return "Choix du forfait";
+        return "Choix du type";
       case 3:
-        return "Moyen de paiement";
+        return "Choix du forfait";
       case 4:
-        return "Confirmer la souscription";
+        return "Moyen de paiement";
       case 5:
+        return "Confirmer la souscription";
+      case 6:
         return "Récapitulatif";
       default:
         return "Souscription forfait";
@@ -608,8 +623,10 @@ const SubscriptionService = () => {
       case 3:
         return "Continuer";
       case 4:
-        return isProcessing ? "Traitement en cours..." : "Confirmer la souscription";
+        return "Continuer";
       case 5:
+        return isProcessing ? "Traitement en cours..." : "Confirmer la souscription";
+      case 6:
         return "Retour à l'accueil";
       default:
         return "Continuer";
@@ -620,7 +637,7 @@ const SubscriptionService = () => {
   const renderStepIndicator = () => {
     return (
       <div className="flex justify-center space-x-2 mb-6">
-        {[1, 2, 3, 4].map((s) => (
+        {[1, 2, 3, 4, 5].map((s) => (
           <div
             key={s}
             className={`h-2 w-2 rounded-full ${
@@ -653,7 +670,7 @@ const SubscriptionService = () => {
           <h1 className="text-xl font-bold">{getStepTitle()}</h1>
         </div>
 
-        {step < 5 && renderStepIndicator()}
+        {step < 6 && renderStepIndicator()}
 
         <div className="mb-6">
           {renderStep()}
@@ -666,7 +683,7 @@ const SubscriptionService = () => {
             disabled={isProcessing}
           >
             {getButtonText()}
-            {!isProcessing && step < 5 && <ArrowRight size={16} className="ml-2" />}
+            {!isProcessing && step < 6 && <ArrowRight size={16} className="ml-2" />}
           </button>
         </div>
       </div>
