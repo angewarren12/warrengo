@@ -54,7 +54,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           
-          <Route element={<Layout><Outlet /></Layout>}>
+          <Route element={<Layout />}>
             <Route path="/welcome" element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/transfer" element={<TransferService />} />
@@ -67,7 +67,7 @@ function App() {
           <Route path="/admin" element={<AdminIndex />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
           
-          <Route path="/admin" element={<AdminLayout><Outlet /></AdminLayout>}>
+          <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="transactions" element={<AdminTransactions />} />
             <Route path="users" element={<AdminUsers />} />
