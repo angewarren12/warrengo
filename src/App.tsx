@@ -2,6 +2,7 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import SplashScreen from "@/components/SplashScreen";
 import LoginPage from "@/components/LoginPage";
+import RegisterPage from "@/components/RegisterPage";
 import OnboardingPage from "@/components/OnboardingPage";
 import Dashboard from "@/pages/Dashboard";
 import Profile from "@/pages/Profile";
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SplashScreen />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />

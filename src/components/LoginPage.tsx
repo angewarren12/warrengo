@@ -1,13 +1,37 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { Phone, ArrowRight } from "lucide-react";
+import { Phone, ArrowRight, Lock, EyeOff, Eye } from "lucide-react";
+import { motion } from "framer-motion";
 
 const LoginPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ phoneNumber: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const { login, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 300, damping: 24 }
+    }
+  };
 
   const validateForm = () => {
     let valid = true;
@@ -44,63 +68,121 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center p-4">
-      <div className="glass-card rounded-xl p-8 mb-8 animate-fade-in">
-        <div className="flex justify-center mb-6">
-          <div className="h-16 w-16 rounded-2xl flex items-center justify-center relative overflow-hidden bg-gradient-to-tr from-[#8B5CF6] via-[#D946EF] to-[#F97316]">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-            <span className="text-white font-bold text-3xl relative z-10">I</span>
-          </div>
-        </div>
-        
-        <h1 className="text-2xl font-bold text-center mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">Bienvenue</h1>
-        <p className="text-muted-foreground text-center mb-8">Connectez-vous pour continuer</p>
-        
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-6">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background to-muted/30">
+      <div className="flex-1 flex flex-col justify-center p-6">
+        <motion.div 
+          className="w-full max-w-md mx-auto"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          {/* Logo Section */}
+          <motion.div variants={itemVariants} className="flex justify-center mb-8">
+            <div className="h-20 w-20 rounded-3xl flex items-center justify-center relative overflow-hidden bg-gradient-to-tr from-primary via-secondary to-destructive shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+              <span className="text-white font-bold text-4xl relative z-10">I</span>
+            </div>
+          </motion.div>
+          
+          {/* Header Section */}
+          <motion.div variants={itemVariants} className="text-center mb-8">
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+              Bon retour!
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Connectez-vous pour accéder à votre compte
+            </p>
+          </motion.div>
+          
+          {/* Form Section */}
+          <motion.form 
+            onSubmit={handleSubmit} 
+            className="space-y-6"
+            variants={itemVariants}
+          >
             <div className="space-y-2">
-              <label htmlFor="phoneNumber" className="text-sm font-medium">
+              <label htmlFor="phoneNumber" className="text-sm font-medium flex items-center gap-2">
+                <Phone size={16} className="text-primary" />
                 Numéro de téléphone
               </label>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
-                  <Phone size={16} />
-                </span>
                 <input
                   id="phoneNumber"
                   type="tel"
-                  className={`input-field pl-10 ${errors.phoneNumber ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
+                  className={`w-full p-4 rounded-2xl bg-background border ${
+                    errors.phoneNumber 
+                      ? 'border-destructive focus-visible:ring-destructive/30' 
+                      : 'border-input focus-visible:ring-primary/20'
+                  } shadow-sm focus-visible:ring-4 focus-visible:outline-none transition-all`}
                   placeholder="07XXXXXXXX"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
               {errors.phoneNumber && (
-                <p className="text-red-500 text-xs mt-1">{errors.phoneNumber}</p>
+                <motion.p 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-destructive text-xs mt-1 flex items-center gap-1"
+                >
+                  {errors.phoneNumber}
+                </motion.p>
               )}
             </div>
             
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">
+              <label htmlFor="password" className="text-sm font-medium flex items-center gap-2">
+                <Lock size={16} className="text-primary" />
                 Mot de passe
               </label>
-              <input
-                id="password"
-                type="password"
-                className={`input-field ${errors.password ? 'border-red-500 focus-visible:ring-red-500' : ''}`}
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  className={`w-full p-4 rounded-2xl bg-background border ${
+                    errors.password 
+                      ? 'border-destructive focus-visible:ring-destructive/30' 
+                      : 'border-input focus-visible:ring-primary/20'
+                  } shadow-sm focus-visible:ring-4 focus-visible:outline-none transition-all pr-12`}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button 
+                  type="button"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
               {errors.password && (
-                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+                <motion.p 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-destructive text-xs mt-1 flex items-center gap-1"
+                >
+                  {errors.password}
+                </motion.p>
               )}
             </div>
             
-            <button
+            <div className="flex justify-end">
+              <button 
+                type="button" 
+                className="text-sm text-primary hover:text-primary/80 transition-colors"
+                onClick={() => navigate("/forgot-password")}
+              >
+                Mot de passe oublié?
+              </button>
+            </div>
+            
+            <motion.button
               type="submit"
-              className="btn-primary w-full justify-center"
+              className="w-full p-4 rounded-2xl bg-gradient-to-r from-primary to-secondary text-white font-semibold flex items-center justify-center shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all"
               disabled={isLoading}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
@@ -112,17 +194,41 @@ const LoginPage = () => {
                 </span>
               ) : (
                 <span className="flex items-center justify-center">
-                  Se connecter <ArrowRight size={16} className="ml-2" />
+                  Se connecter <ArrowRight size={18} className="ml-2" />
                 </span>
               )}
-            </button>
-          </div>
-        </form>
+            </motion.button>
+          </motion.form>
+          
+          {/* Registration Link */}
+          <motion.div 
+            variants={itemVariants}
+            className="mt-8 text-center"
+          >
+            <p className="text-sm text-muted-foreground">
+              Vous n'avez pas de compte?{" "}
+              <button 
+                onClick={() => navigate("/register")}
+                className="text-primary font-medium hover:underline"
+              >
+                Créer un compte
+              </button>
+            </p>
+          </motion.div>
+        </motion.div>
       </div>
       
-      <p className="text-center text-sm text-muted-foreground">
-        Pour démonstration, utilisez n'importe quel numéro valide et un mot de passe de plus de 6 caractères.
-      </p>
+      {/* Demo */}
+      <motion.div 
+        className="p-4 text-center bg-muted/20 border-t"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8 }}
+      >
+        <p className="text-xs text-muted-foreground">
+          Pour démonstration, utilisez n'importe quel numéro valide et un mot de passe de plus de 6 caractères.
+        </p>
+      </motion.div>
     </div>
   );
 };
