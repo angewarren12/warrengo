@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import { Toaster } from "./components/ui/toaster";
 import { AuthProvider } from "./context/AuthContext";
@@ -22,6 +22,9 @@ import AdminLoginPage from "./components/admin/AdminLoginPage";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AdminTransactions from "./components/admin/AdminTransactions";
 import AdminUsers from "./components/admin/AdminUsers";
+import AdminStatistics from "./components/admin/AdminStatistics";
+import AdminAlerts from "./components/admin/AdminAlerts";
+import AdminSettings from "./components/admin/AdminSettings";
 
 import "./App.css";
 import { useEffect } from "react";
@@ -51,13 +54,13 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           
-          <Route element={<Layout />}>
-            <Route path="/welcome" element={<Index />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/transfer" element={<TransferService />} />
-            <Route path="/subscription" element={<SubscriptionService />} />
-            <Route path="/history" element={<TransactionHistory />} />
-            <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<Layout />}>
+            <Route path="welcome" element={<Index />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="transfer" element={<TransferService />} />
+            <Route path="subscription" element={<SubscriptionService />} />
+            <Route path="history" element={<TransactionHistory />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
           
           {/* Routes d'administration */}
@@ -68,9 +71,9 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="transactions" element={<AdminTransactions />} />
             <Route path="users" element={<AdminUsers />} />
-            <Route path="statistics" element={<AdminDashboard />} />
-            <Route path="alerts" element={<AdminDashboard />} />
-            <Route path="settings" element={<AdminDashboard />} />
+            <Route path="statistics" element={<AdminStatistics />} />
+            <Route path="alerts" element={<AdminAlerts />} />
+            <Route path="settings" element={<AdminSettings />} />
             <Route path="support" element={<AdminDashboard />} />
           </Route>
           
