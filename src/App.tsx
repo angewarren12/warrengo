@@ -10,6 +10,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/toaster";
 import TransferService from "@/pages/TransferService";
 import SubscriptionService from "@/pages/SubscriptionService";
+import TransactionHistory from "@/pages/TransactionHistory";
 import "./App.css";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/transfer" element={<TransferService />} />
           <Route path="/subscription" element={<SubscriptionService />} />
+          <Route path="/history" element={<TransactionHistory />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Toaster />
