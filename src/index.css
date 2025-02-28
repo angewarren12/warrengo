@@ -1,4 +1,5 @@
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -139,20 +140,6 @@
       transform: translateY(0);
     }
   }
-  
-  /* Masquer les scrollbars tout en maintenant la fonctionnalité */
-  .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE et Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari et Opera */
-  }
-  
-  /* Smooth scrolling pour l'ensemble de la page */
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 /* Responsive adjustments */
@@ -161,3 +148,4 @@
     @apply px-4 py-4;
   }
 }
+
