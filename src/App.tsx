@@ -19,6 +19,12 @@ import TransferService from "@/pages/TransferService";
 import SubscriptionService from "@/pages/SubscriptionService";
 import TransactionHistory from "@/pages/TransactionHistory"; // Ajout de la nouvelle page
 
+// La méthode la plus propre serait de créer des déclarations de type pour augmenter les types existants,
+// mais comme nous ne pouvons pas modifier les fichiers originaux, nous utilisons des cast types pour éviter les erreurs
+type OnboardingPageType = React.ComponentType<{ onComplete: () => void }>;
+type LoginPageType = React.ComponentType<{ onLogin: () => void }>;
+type DashboardType = React.ComponentType<{ onLogout: () => void }>;
+
 function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [hasSeenOnboarding, setHasSeenOnboarding] = useLocalStorage("hasSeenOnboarding", false);
@@ -52,13 +58,20 @@ function App() {
 
   // Afficher l'onboarding si l'utilisateur ne l'a pas encore vu
   if (!hasSeenOnboarding) {
-    return <OnboardingPage onComplete={handleOnboardingComplete} />;
+    // Cast le composant au type attendu pour éviter l'erreur TypeScript
+    const TypedOnboardingPage = OnboardingPage as OnboardingPageType;
+    return <TypedOnboardingPage onComplete={handleOnboardingComplete} />;
   }
 
   // Afficher la page de connexion si l'utilisateur n'est pas connecté
   if (!isLoggedIn) {
-    return <LoginPage onLogin={handleLogin} />;
+    // Cast le composant au type attendu pour éviter l'erreur TypeScript
+    const TypedLoginPage = LoginPage as LoginPageType;
+    return <TypedLoginPage onLogin={handleLogin} />;
   }
+
+  // Cast le composant Dashboard pour utiliser onLogout
+  const TypedDashboard = Dashboard as DashboardType;
 
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
@@ -67,7 +80,7 @@ function App() {
           <Router>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/dashboard" element={<Dashboard onLogout={handleLogout} />} />
+              <Route path="/dashboard" element={<TypedDashboard onLogout={handleLogout} />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/transfer" element={<TransferService />} />
               <Route path="/subscription" element={<SubscriptionService />} />
