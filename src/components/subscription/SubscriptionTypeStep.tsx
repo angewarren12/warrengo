@@ -21,7 +21,7 @@ const SubscriptionTypeStep: React.FC<SubscriptionTypeStepProps> = ({
         <RadioGroup
           value={subscriptionType}
           onValueChange={setSubscriptionType}
-          className="grid grid-cols-2 gap-4"
+          className="grid grid-cols-2 gap-6"
         >
           {SUBSCRIPTION_TYPES.map((type) => (
             <div key={type.id} className="relative">
@@ -32,13 +32,13 @@ const SubscriptionTypeStep: React.FC<SubscriptionTypeStepProps> = ({
               />
               <Label
                 htmlFor={type.id}
-                className="flex flex-col items-center justify-center h-24 rounded-lg border-2 border-muted p-2 hover:border-primary/50 peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                className="flex flex-col items-center justify-center h-32 rounded-xl border-2 border-muted p-4 hover:border-primary/50 peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary/5 cursor-pointer shadow-sm hover:shadow-md transition-all"
               >
-                <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
                   {type.icon}
                 </div>
                 <div className="text-center">
-                  <div className="text-sm font-medium">{type.name}</div>
+                  <div className="text-base font-semibold">{type.name}</div>
                   <div className="mt-1 text-xs text-muted-foreground">
                     {type.description}
                   </div>
