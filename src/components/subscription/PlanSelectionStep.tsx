@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { ORANGE_INTERNET_CATEGORIES } from "@/data/subscriptionData";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Smartphone } from "lucide-react";
 
 interface Plan {
   id: string;
@@ -13,7 +14,7 @@ interface Plan {
   validity: string;
   price: number;
   description: string;
-  icon?: React.ReactNode;
+  iconColor?: string;
   isNew?: boolean;
 }
 
@@ -49,6 +50,13 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
   // Formater les prix
   const formatPrice = (price: number) => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
+
+  // Générer icône avec la bonne couleur
+  const renderIcon = (iconColor?: string) => {
+    if (!iconColor) return null;
+    
+    return <Smartphone className={`text-${iconColor}-500`} size={16} />;
   };
 
   // Plans filtrés selon la catégorie active
@@ -124,7 +132,9 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
                 
                 <div className="flex justify-between text-sm mb-1 items-center">
                   <div className="flex items-center gap-2">
-                    {plan.icon && <span>{plan.icon}</span>}
+                    {plan.iconColor && (
+                      <Smartphone className={plan.iconColor === "orange" ? "text-orange-500" : "text-gray-500"} size={16} />
+                    )}
                     <span className="font-medium">
                       {subscriptionType === "internet" ? plan.data : plan.minutes}
                     </span>

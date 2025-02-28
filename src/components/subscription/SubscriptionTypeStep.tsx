@@ -3,6 +3,7 @@ import React from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { SUBSCRIPTION_TYPES } from "@/data/subscriptionData";
+import { Wifi, PhoneCall } from "lucide-react";
 
 interface SubscriptionTypeStepProps {
   subscriptionType: string;
@@ -13,6 +14,18 @@ const SubscriptionTypeStep: React.FC<SubscriptionTypeStepProps> = ({
   subscriptionType, 
   setSubscriptionType 
 }) => {
+  // Fonction pour obtenir l'icône en fonction du nom
+  const getIconByName = (iconName: string) => {
+    switch (iconName) {
+      case "Wifi":
+        return <Wifi size={24} />;
+      case "PhoneCall":
+        return <PhoneCall size={24} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="animate-fade-in">
       <h2 className="text-xl font-semibold mb-4 text-center">Type de forfait</h2>
@@ -35,7 +48,7 @@ const SubscriptionTypeStep: React.FC<SubscriptionTypeStepProps> = ({
                 className="flex flex-col items-center justify-center h-32 rounded-xl border-2 border-muted p-4 hover:border-primary/50 peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary [&:has([data-state=checked])]:bg-primary/5 cursor-pointer shadow-sm hover:shadow-md transition-all"
               >
                 <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-                  {type.icon}
+                  {getIconByName(type.iconName)}
                 </div>
                 <div className="text-center">
                   <div className="text-base font-semibold">{type.name}</div>
