@@ -216,10 +216,10 @@ export const SUBSCRIPTION_PLANS = {
       }
     ],
     "call": [
-      { id: "o-c-1", name: "Pass Jour", minutes: "30 min", validity: "24h", price: 500, description: "Appels valables 24h" },
-      { id: "o-c-2", name: "Pass Hebdo", minutes: "120 min", validity: "7 jours", price: 2000, description: "Appels valables 7 jours" },
-      { id: "o-c-3", name: "Pass Mensuel", minutes: "500 min", validity: "30 jours", price: 5000, description: "Appels valables 30 jours" },
-      { id: "o-c-4", name: "Pass Famille", minutes: "60 min", validity: "24h", price: 1000, description: "Appels vers 3 numéros favoris" }
+      { id: "o-c-1", name: "Pass Jour", minutes: "30 min", validity: "24h", price: 500, description: "Appels valables 24h", category: "jour" },
+      { id: "o-c-2", name: "Pass Hebdo", minutes: "120 min", validity: "7 jours", price: 2000, description: "Appels valables 7 jours", category: "hebdo" },
+      { id: "o-c-3", name: "Pass Mensuel", minutes: "500 min", validity: "30 jours", price: 5000, description: "Appels valables 30 jours", category: "mensuel" },
+      { id: "o-c-4", name: "Pass Famille", minutes: "60 min", validity: "24h", price: 1000, description: "Appels vers 3 numéros favoris", category: "special" }
     ]
   },
   "MTN": {
@@ -230,9 +230,9 @@ export const SUBSCRIPTION_PLANS = {
       { id: "m-i-4", name: "Y'ello Max", data: "Illimité", validity: "24h", price: 1000, description: "Internet illimité pour 24h" }
     ],
     "call": [
-      { id: "m-c-1", name: "MTN OneDayCalling", minutes: "45 min", validity: "24h", price: 500, description: "Appels valables 24h" },
-      { id: "m-c-2", name: "MTN WeekTalk", minutes: "150 min", validity: "7 jours", price: 2000, description: "Appels valables 7 jours" },
-      { id: "m-c-3", name: "MTN MonthVoice", minutes: "600 min", validity: "30 jours", price: 5000, description: "Appels valables 30 jours" }
+      { id: "m-c-1", name: "MTN OneDayCalling", minutes: "45 min", validity: "24h", price: 500, description: "Appels valables 24h", category: "daily" },
+      { id: "m-c-2", name: "MTN WeekTalk", minutes: "150 min", validity: "7 jours", price: 2000, description: "Appels valables 7 jours", category: "weekly" },
+      { id: "m-c-3", name: "MTN MonthVoice", minutes: "600 min", validity: "30 jours", price: 5000, description: "Appels valables 30 jours", category: "monthly" }
     ]
   },
   "Moov": {
@@ -243,10 +243,10 @@ export const SUBSCRIPTION_PLANS = {
       { id: "mo-i-4", name: "Moov Night Surf", data: "2 Go", validity: "De 00h à 6h", price: 500, description: "Internet nocturne uniquement" }
     ],
     "call": [
-      { id: "mo-c-1", name: "Moov Call Day", minutes: "25 min", validity: "24h", price: 500, description: "Appels valables 24h" },
-      { id: "mo-c-2", name: "Moov Call Week", minutes: "100 min", validity: "7 jours", price: 1500, description: "Appels valables 7 jours" },
-      { id: "mo-c-3", name: "Moov Call Month", minutes: "400 min", validity: "30 jours", price: 4500, description: "Appels valables 30 jours" },
-      { id: "mo-c-4", name: "Moov All Network", minutes: "15 min", validity: "24h", price: 500, description: "Appels vers tous les réseaux" }
+      { id: "mo-c-1", name: "Moov Call Day", minutes: "25 min", validity: "24h", price: 500, description: "Appels valables 24h", category: "day" },
+      { id: "mo-c-2", name: "Moov Call Week", minutes: "100 min", validity: "7 jours", price: 1500, description: "Appels valables 7 jours", category: "week" },
+      { id: "mo-c-3", name: "Moov Call Month", minutes: "400 min", validity: "30 jours", price: 4500, description: "Appels valables 30 jours", category: "month" },
+      { id: "mo-c-4", name: "Moov All Network", minutes: "15 min", validity: "24h", price: 500, description: "Appels vers tous les réseaux", category: "all-net" }
     ]
   }
 };

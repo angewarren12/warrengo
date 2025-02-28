@@ -34,6 +34,27 @@ export const ORANGE_INTERNET_CATEGORIES = [
   { id: "social", name: "Pass Social" }
 ];
 
+// Définition des catégories de forfaits appel (provisoire)
+export const CALL_CATEGORIES = {
+  "Orange": [
+    { id: "jour", name: "Pass Jour" },
+    { id: "hebdo", name: "Pass Hebdo" },
+    { id: "mensuel", name: "Pass Mensuel" },
+    { id: "special", name: "Pass Spécial" }
+  ],
+  "MTN": [
+    { id: "daily", name: "Pass Day" },
+    { id: "weekly", name: "Pass Week" },
+    { id: "monthly", name: "Pass Month" }
+  ],
+  "Moov": [
+    { id: "day", name: "Pass Day" },
+    { id: "week", name: "Pass Week" },
+    { id: "month", name: "Pass Month" },
+    { id: "all-net", name: "Pass All Network" }
+  ]
+};
+
 // Définition des moyens de paiement avec leurs préfixes requis
 export const PAYMENT_METHODS = [
   {
