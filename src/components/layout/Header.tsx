@@ -32,9 +32,9 @@ const Header = () => {
         <div className="flex items-center space-x-2">
           {/* Logo */}
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-white font-bold text-xl">I</span>
+            <span className="text-white font-bold text-xl">W</span>
           </div>
-          <h1 className="font-semibold text-lg">IvoirePay</h1>
+          <h1 className="font-semibold text-lg">WarrenGo</h1>
         </div>
         
         {/* User and dark mode toggle */}
