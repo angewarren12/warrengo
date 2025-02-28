@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import { 
   Settings, Save, RotateCcw, Moon, Sun, BellRing, Bell, Phone, Globe, 
-  Shield, Database, Key, LockKeyhole, GanttChart, BarChart3, UserCog, LogOut
+  Shield, Database, Key, LockKeyhole, GanttChart, BarChart3, UserCog, LogOut,
+  Mail
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

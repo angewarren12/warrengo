@@ -1,5 +1,5 @@
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import { Toaster } from "./components/ui/toaster";
 import { AuthProvider } from "./context/AuthContext";
@@ -54,20 +54,20 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           
-          <Route path="/" element={<Layout />}>
-            <Route path="welcome" element={<Index />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="transfer" element={<TransferService />} />
-            <Route path="subscription" element={<SubscriptionService />} />
-            <Route path="history" element={<TransactionHistory />} />
-            <Route path="profile" element={<Profile />} />
+          <Route element={<Layout><Outlet /></Layout>}>
+            <Route path="/welcome" element={<Index />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/transfer" element={<TransferService />} />
+            <Route path="/subscription" element={<SubscriptionService />} />
+            <Route path="/history" element={<TransactionHistory />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
           
           {/* Routes d'administration */}
           <Route path="/admin" element={<AdminIndex />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
           
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminLayout><Outlet /></AdminLayout>}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="transactions" element={<AdminTransactions />} />
             <Route path="users" element={<AdminUsers />} />
