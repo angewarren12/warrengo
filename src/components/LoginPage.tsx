@@ -80,7 +80,7 @@ const LoginPage = () => {
           <motion.div variants={itemVariants} className="flex justify-center mb-8">
             <div className="h-20 w-20 rounded-3xl flex items-center justify-center relative overflow-hidden bg-gradient-to-tr from-primary via-secondary to-destructive shadow-xl">
               <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
-              <span className="text-white font-bold text-4xl relative z-10">I</span>
+              <span className="text-white font-bold text-4xl relative z-10">W</span>
             </div>
           </motion.div>
           
@@ -217,18 +217,6 @@ const LoginPage = () => {
           </motion.div>
         </motion.div>
       </div>
-      
-      {/* Demo */}
-      <motion.div 
-        className="p-4 text-center bg-muted/20 border-t"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-      >
-        <p className="text-xs text-muted-foreground">
-          Pour démonstration, utilisez n'importe quel numéro valide et un mot de passe de plus de 6 caractères.
-        </p>
-      </motion.div>
     </div>
   );
 };

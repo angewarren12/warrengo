@@ -1,17 +1,12 @@
 
 import { useNavigate, useLocation } from "react-router-dom";
-import { Globe, Phone, User, History } from "lucide-react";
+import { Phone, User, History } from "lucide-react";
 
 const BottomNavigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
   const navItems = [
-    {
-      label: "Services",
-      path: "/services",
-      icon: <Globe size={20} />,
-    },
     {
       label: "Accueil",
       path: "/dashboard",
@@ -38,7 +33,7 @@ const BottomNavigation = () => {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={`flex flex-col items-center justify-center space-y-1 w-1/4 h-full transition-all duration-300 ${
+            className={`flex flex-col items-center justify-center space-y-1 w-1/3 h-full transition-all duration-300 ${
               isActive(item.path)
                 ? "text-primary"
                 : "text-muted-foreground hover:text-foreground"

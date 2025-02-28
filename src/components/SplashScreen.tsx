@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -128,7 +129,7 @@ const SplashScreen = () => {
                 delay: 0.3
               }}
             >
-              I
+              W
             </motion.span>
           </div>
         </motion.div>
@@ -138,7 +139,7 @@ const SplashScreen = () => {
           className="mt-8 text-center"
         >
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-            IvoirePay
+            WarrenGo
           </h1>
           <p className="text-muted-foreground mt-2">
             Transferts & Pass mobiles
