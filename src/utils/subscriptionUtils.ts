@@ -33,7 +33,7 @@ export const validatePaymentNumber = (number: string, paymentMethod: string) => 
 export const getAvailablePlans = (operator: string, subscriptionType: string) => {
   if (!operator) return [];
   
-  return SUBSCRIPTION_PLANS[operator as keyof typeof SUBSCRIPTION_PLANS]?.[subscriptionType as "internet" | "call"] || [];
+  return SUBSCRIPTION_PLANS[operator]?.[subscriptionType] || [];
 };
 
 // Obtenir le préfixe du moyen de paiement actuellement sélectionné

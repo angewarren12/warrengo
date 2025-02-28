@@ -1,9 +1,9 @@
 
-import { Wifi, PhoneCall } from "lucide-react";
 import React from "react";
+import { Wifi, PhoneCall } from "lucide-react";
 
 // Définition des opérateurs en fonction des préfixes
-export const OPERATORS = {
+export const OPERATORS: Record<string, string> = {
   "01": "Moov",
   "05": "MTN", 
   "07": "Orange"
@@ -58,7 +58,7 @@ export const PAYMENT_METHODS = [
 ];
 
 // Définition des forfaits par opérateur et type
-export const SUBSCRIPTION_PLANS = {
+export const SUBSCRIPTION_PLANS: Record<string, Record<string, any[]>> = {
   "Orange": {
     "internet": [
       { id: "o-i-1", name: "Pass Jour", data: "150 Mo", validity: "24h", price: 500, description: "Internet valable 24h" },
