@@ -246,6 +246,7 @@ const SubscriptionService = () => {
             total={total}
             paymentMethod={getPaymentMethodName(paymentMethod)}
             paymentNumber={paymentMethod !== "pay-later" ? paymentNumber : undefined}
+            hideHomeButton={true}
           />
         );
       
@@ -281,7 +282,7 @@ const SubscriptionService = () => {
       case 5:
         return isProcessing ? "Traitement en cours..." : "Confirmer la souscription";
       case 6:
-        return "Retour à l'accueil";
+        return ""; // Le bouton est caché sur la page de succès
       default:
         return "Continuer";
     }
@@ -289,9 +290,10 @@ const SubscriptionService = () => {
 
   // Déterminer si le bouton "Continuer" doit être affiché
   const shouldShowContinueButton = () => {
-    // Ne pas afficher le bouton pour les étapes 2 et 3 (passage automatique)
+    // Ne pas afficher le bouton pour les étapes 2, 3 et 6
     if (step === 2) return false;
     if (step === 3 && !selectedPlan) return false;
+    if (step === 6) return false;
     return true;
   };
 

@@ -54,24 +54,6 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
     }
   };
 
-  // Vérifier si les boutons de défilement sont nécessaires
-  const [showScrollButtons, setShowScrollButtons] = useState(false);
-  
-  useEffect(() => {
-    if (tabsListRef.current) {
-      const checkOverflow = () => {
-        const el = tabsListRef.current;
-        if (el) {
-          setShowScrollButtons(el.scrollWidth > el.clientWidth);
-        }
-      };
-      
-      checkOverflow();
-      window.addEventListener('resize', checkOverflow);
-      return () => window.removeEventListener('resize', checkOverflow);
-    }
-  }, [operator, subscriptionType]);
-
   // Filtrer les plans par catégorie pour Orange Internet
   const getFilteredPlans = () => {
     if (operator === "Orange" && subscriptionType === "internet" && activeCategory) {
@@ -111,25 +93,14 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
         <div className="space-y-5">
           {operator === "Orange" && subscriptionType === "internet" && (
             <div className="relative">
-              {showScrollButtons && (
-                <>
-                  <button 
-                    onClick={() => scrollTabs('left')} 
-                    className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 dark:bg-background/50 rounded-full p-1.5 shadow-md border"
-                    aria-label="Défiler vers la gauche"
-                  >
-                    <ChevronLeft size={16} />
-                  </button>
-                  
-                  <button 
-                    onClick={() => scrollTabs('right')} 
-                    className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 dark:bg-background/50 rounded-full p-1.5 shadow-md border"
-                    aria-label="Défiler vers la droite"
-                  >
-                    <ChevronRight size={16} />
-                  </button>
-                </>
-              )}
+              {/* Boutons de défilement toujours visibles */}
+              <button 
+                onClick={() => scrollTabs('left')} 
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 dark:bg-background/50 rounded-full p-1.5 shadow-md border"
+                aria-label="Défiler vers la gauche"
+              >
+                <ChevronLeft size={16} />
+              </button>
               
               <Tabs 
                 defaultValue={ORANGE_INTERNET_CATEGORIES[0].id}
@@ -162,12 +133,20 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
                   </TabsContent>
                 ))}
               </Tabs>
+              
+              <button 
+                onClick={() => scrollTabs('right')} 
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background/80 dark:bg-background/50 rounded-full p-1.5 shadow-md border"
+                aria-label="Défiler vers la droite"
+              >
+                <ChevronRight size={16} />
+              </button>
             </div>
           )}
 
           <div 
             ref={scrollContainerRef}
-            className="grid grid-cols-1 gap-4 overflow-y-auto pr-1"
+            className="grid grid-cols-1 gap-4 overflow-y-auto pr-1 no-scrollbar"
             style={{ maxHeight: '60vh' }}
           >
             {filteredPlans.map((plan) => (

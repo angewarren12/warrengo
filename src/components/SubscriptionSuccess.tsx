@@ -14,6 +14,7 @@ interface SubscriptionSuccessProps {
   total: number;
   paymentMethod: string;
   paymentNumber?: string;
+  hideHomeButton?: boolean;
 }
 
 const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
@@ -23,14 +24,15 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
   subscriptionType,
   total,
   paymentMethod,
-  paymentNumber
+  paymentNumber,
+  hideHomeButton = false
 }) => {
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight
   });
   const [showConfetti, setShowConfetti] = useState(true);
-  const [transactionId] = useState(`SUB${Math.floor(Math.random() * 1000000)}`);
+  const [transactionId] = useState(`TRX${Math.floor(Math.random() * 1000000)}`);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -67,7 +69,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: "Souscription forfait réussie",
+        title: "Forfait souscrit avec succès",
         text: `J'ai souscrit au forfait ${plan.name} pour le numéro ${phoneNumber} via IvoirePay. ID de transaction: ${transactionId}`
       }).catch(() => {
         toast({
@@ -111,12 +113,12 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
         </h2>
         
         <p className="text-muted-foreground mb-8 max-w-xs mx-auto">
-          Le forfait <strong>{plan.name}</strong> a été activé pour le numéro <strong>{phoneNumber}</strong> ({operator}).
+          Votre forfait <strong>{plan.name}</strong> a été activé pour <strong>{phoneNumber}</strong> ({operator}).
         </p>
         
         <Card className="border shadow-md mb-6 overflow-hidden">
           <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-3 border-b">
-            <h3 className="font-semibold text-center">Détails de la souscription</h3>
+            <h3 className="font-semibold text-center">Détails de la transaction</h3>
           </div>
           <CardContent className="p-4 space-y-4">
             <div className="flex justify-between items-center">
@@ -138,7 +140,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
             </div>
             
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Destinataire</span>
+              <span className="text-sm text-muted-foreground">Numéro</span>
               <span className="font-medium">{phoneNumber}</span>
             </div>
             
@@ -174,7 +176,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
             </div>
             
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Montant payé</span>
+              <span className="text-sm text-muted-foreground">Total payé</span>
               <span className="font-medium">{total} F</span>
             </div>
             
@@ -193,7 +195,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
             <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Statut</span>
               <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full font-medium">
-                Activé
+                Réussi
               </span>
             </div>
           </CardContent>
@@ -202,7 +204,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
         <div className="flex justify-center gap-3 mb-4">
           <button 
             onClick={handleGoHome}
-            className="btn-sm-secondary px-4 py-2"
+            className="btn-sm-primary px-4 py-2"
           >
             <Home size={16} className="mr-2" />
             Accueil
@@ -219,7 +221,7 @@ const SubscriptionSuccess: React.FC<SubscriptionSuccessProps> = ({
         
         <div className="bg-primary/5 rounded-lg p-4 max-w-xs mx-auto">
           <p className="text-xs text-muted-foreground">
-            Un SMS de confirmation a été envoyé au destinataire. Le forfait est désormais actif.
+            Un SMS de confirmation a été envoyé au numéro {phoneNumber}. Merci d'avoir utilisé notre service !
           </p>
         </div>
       </div>

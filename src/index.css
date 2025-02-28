@@ -103,6 +103,16 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;  /* Chrome, Safari and Opera */
   }
+  
+  /* Cacher toutes les barres de défilement par défaut */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
 }
 
 @layer components {
@@ -115,11 +125,11 @@
   }
   
   .btn-primary {
-    @apply bg-gradient-to-r from-primary to-secondary text-white px-6 py-2.5 rounded-full flex items-center font-medium hover:shadow-lg transition-all;
+    @apply bg-gradient-to-r from-primary to-secondary text-white px-6 py-2.5 rounded-full flex items-center justify-center font-medium hover:shadow-lg transition-all;
   }
   
   .btn-sm-primary {
-    @apply bg-gradient-to-r from-primary to-secondary text-white rounded-full flex items-center font-medium text-xs hover:shadow-lg transition-all;
+    @apply bg-gradient-to-r from-primary to-secondary text-white rounded-full flex items-center justify-center font-medium text-xs hover:shadow-lg transition-all;
   }
   
   .input-field {
