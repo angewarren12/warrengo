@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { ORANGE_INTERNET_CATEGORIES } from "@/data/subscriptionData";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Smartphone, ChevronLeft, ChevronRight } from "lucide-react";
+import { Smartphone, ChevronLeft, ChevronRight, Phone, Clock, Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface Plan {
@@ -97,6 +97,26 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
     }
   }, [operator, subscriptionType]);
 
+  // Obtenir la couleur de fond en fonction de l'opérateur
+  const getOperatorColor = () => {
+    switch (operator) {
+      case "Orange": return "bg-orange-50 dark:bg-orange-900/10";
+      case "MTN": return "bg-yellow-50 dark:bg-yellow-900/10";
+      case "Moov": return "bg-blue-50 dark:bg-blue-900/10";
+      default: return "bg-gray-50 dark:bg-gray-900/10";
+    }
+  };
+
+  // Obtenir la couleur du texte en fonction de l'opérateur
+  const getOperatorTextColor = () => {
+    switch (operator) {
+      case "Orange": return "text-orange-500";
+      case "MTN": return "text-yellow-500";
+      case "Moov": return "text-blue-500";
+      default: return "text-gray-500";
+    }
+  };
+
   return (
     <div className="animate-fade-in">
       <h2 className="text-xl font-semibold mb-4 text-center">Forfaits disponibles</h2>
@@ -180,40 +200,87 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
                 }`}
                 onClick={() => setSelectedPlan(plan)}
               >
-                <CardContent className="p-5">
-                  <div className="flex justify-between items-start mb-3">
-                    <div className="space-y-1">
-                      <h4 className="font-semibold text-base">{plan.name}</h4>
-                      {plan.isNew && (
-                        <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-medium">
-                          Nouveau !
-                        </Badge>
-                      )}
+                {subscriptionType === "internet" ? (
+                  <CardContent className="p-5">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="space-y-1">
+                        <h4 className="font-semibold text-base">{plan.name}</h4>
+                        {plan.isNew && (
+                          <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-medium">
+                            Nouveau !
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="text-right">
+                        <span className="font-bold text-orange-500 text-lg">{formatPrice(plan.price)} F</span>
+                        <p className="text-xs text-muted-foreground">{plan.validity}</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <span className="font-bold text-orange-500 text-lg">{formatPrice(plan.price)} F</span>
-                      <p className="text-xs text-muted-foreground">{plan.validity}</p>
+                    
+                    <div className="flex justify-between text-sm mb-2 items-center">
+                      <div className="flex items-center gap-2">
+                        {plan.iconColor && (
+                          <div className="bg-primary/10 p-1.5 rounded-full">
+                            <Smartphone 
+                              className={plan.iconColor === "orange" ? "text-orange-500" : "text-gray-500"} 
+                              size={16}
+                            />
+                          </div>
+                        )}
+                        <span className="font-medium">
+                          {plan.data}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex justify-between text-sm mb-2 items-center">
-                    <div className="flex items-center gap-2">
-                      {plan.iconColor && (
-                        <div className="bg-primary/10 p-1.5 rounded-full">
-                          <Smartphone 
-                            className={plan.iconColor === "orange" ? "text-orange-500" : "text-gray-500"} 
-                            size={16}
-                          />
+                    
+                    <p className="text-xs text-muted-foreground mt-2">{plan.description}</p>
+                  </CardContent>
+                ) : (
+                  // Design spécial pour les forfaits d'appel
+                  <CardContent className="p-0">
+                    <div className={`p-4 ${getOperatorColor()} rounded-t-xl border-b`}>
+                      <div className="flex justify-between items-start">
+                        <div className="space-y-1">
+                          <h4 className="font-semibold text-base">{plan.name}</h4>
+                          {plan.isNew && (
+                            <Badge className="bg-gradient-to-r from-green-500 to-blue-500 text-white text-xs font-medium">
+                              Nouveau !
+                            </Badge>
+                          )}
                         </div>
-                      )}
-                      <span className="font-medium">
-                        {subscriptionType === "internet" ? plan.data : plan.minutes}
-                      </span>
+                        <div className="text-right">
+                          <span className={`font-bold ${getOperatorTextColor()} text-lg`}>{formatPrice(plan.price)} F</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <p className="text-xs text-muted-foreground mt-2">{plan.description}</p>
-                </CardContent>
+                    
+                    <div className="p-4 space-y-3">
+                      <div className="flex items-center gap-3 text-sm">
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                          <Phone size={16} className="text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Minutes d'appel</p>
+                          <p className="font-medium">{plan.minutes}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-3 text-sm">
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                          <Calendar size={16} className="text-primary" />
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Validité</p>
+                          <p className="font-medium">{plan.validity}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-3 pt-3 border-t">
+                        <p className="text-xs text-muted-foreground">{plan.description}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                )}
               </Card>
             ))}
           </div>
