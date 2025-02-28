@@ -1,79 +1,59 @@
 
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import { Home, User, Send, Smartphone, Clock } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Globe, Phone, User, History } from "lucide-react";
 
 const BottomNavigation = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   
-  // Déterminer si un lien est actif
-  const isActive = (path: string) => {
-    return location.pathname === path;
-  };
+  const navItems = [
+    {
+      label: "Services",
+      path: "/services",
+      icon: <Globe size={20} />,
+    },
+    {
+      label: "Accueil",
+      path: "/dashboard",
+      icon: <Phone size={20} />,
+    },
+    {
+      label: "Historique",
+      path: "/history",
+      icon: <History size={20} />,
+    },
+    {
+      label: "Profil",
+      path: "/profile",
+      icon: <User size={20} />,
+    },
+  ];
+  
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 border-t bg-background/90 backdrop-blur-md z-40">
-      <div className="flex justify-around max-w-md mx-auto">
-        <NavLink
-          to="/dashboard"
-          className={`flex flex-col items-center justify-center p-3 ${
-            isActive('/dashboard') 
-              ? 'text-primary font-medium' 
-              : 'text-muted-foreground'
-          }`}
-        >
-          <Home size={20} />
-          <span className="text-xs mt-1">Accueil</span>
-        </NavLink>
-        
-        <NavLink
-          to="/transfer"
-          className={`flex flex-col items-center justify-center p-3 ${
-            isActive('/transfer') 
-              ? 'text-primary font-medium' 
-              : 'text-muted-foreground'
-          }`}
-        >
-          <Send size={20} />
-          <span className="text-xs mt-1">Transfert</span>
-        </NavLink>
-        
-        <NavLink
-          to="/subscription"
-          className={`flex flex-col items-center justify-center p-3 ${
-            isActive('/subscription') 
-              ? 'text-primary font-medium' 
-              : 'text-muted-foreground'
-          }`}
-        >
-          <Smartphone size={20} />
-          <span className="text-xs mt-1">Forfaits</span>
-        </NavLink>
-        
-        <NavLink
-          to="/history"
-          className={`flex flex-col items-center justify-center p-3 ${
-            isActive('/history') 
-              ? 'text-primary font-medium' 
-              : 'text-muted-foreground'
-          }`}
-        >
-          <Clock size={20} />
-          <span className="text-xs mt-1">Historique</span>
-        </NavLink>
-        
-        <NavLink
-          to="/profile"
-          className={`flex flex-col items-center justify-center p-3 ${
-            isActive('/profile') 
-              ? 'text-primary font-medium' 
-              : 'text-muted-foreground'
-          }`}
-        >
-          <User size={20} />
-          <span className="text-xs mt-1">Profil</span>
-        </NavLink>
-      </div>
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-t border-border">
+      <nav className="h-16 flex items-center justify-around">
+        {navItems.map((item) => (
+          <button
+            key={item.path}
+            onClick={() => navigate(item.path)}
+            className={`flex flex-col items-center justify-center space-y-1 w-1/4 h-full transition-all duration-300 ${
+              isActive(item.path)
+                ? "text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            <div className="relative">
+              {item.icon}
+              {isActive(item.path) && (
+                <span className="absolute -bottom-1 left-1/2 w-1 h-1 bg-primary rounded-full transform -translate-x-1/2"></span>
+              )}
+            </div>
+            <span className="text-xs font-medium">{item.label}</span>
+          </button>
+        ))}
+      </nav>
     </div>
   );
 };

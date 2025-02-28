@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
-import { ORANGE_INTERNET_CATEGORIES, CALL_CATEGORIES } from "@/data/subscriptionData";
+import { ORANGE_INTERNET_CATEGORIES } from "@/data/subscriptionData";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Smartphone, ChevronLeft, ChevronRight, Phone, Clock, Calendar } from "lucide-react";
@@ -37,9 +37,7 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
   const [activeCategory, setActiveCategory] = useState<string | null>(
     operator === "Orange" && subscriptionType === "internet" 
       ? ORANGE_INTERNET_CATEGORIES[0].id 
-      : operator && subscriptionType === "call" && CALL_CATEGORIES[operator]?.length > 0
-        ? CALL_CATEGORIES[operator][0].id
-        : null
+      : null
   );
   
   const tabsListRef = useRef<HTMLDivElement>(null);
@@ -58,14 +56,10 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
     }
   };
 
-  // Filtrer les plans par catégorie
+  // Filtrer les plans par catégorie pour Orange Internet
   const getFilteredPlans = () => {
-    if (operator) {
-      if (subscriptionType === "internet" && operator === "Orange" && activeCategory) {
-        return plans.filter(plan => plan.category === activeCategory);
-      } else if (subscriptionType === "call" && activeCategory) {
-        return plans.filter(plan => plan.category === activeCategory);
-      }
+    if (operator === "Orange" && subscriptionType === "internet" && activeCategory) {
+      return plans.filter(plan => plan.category === activeCategory);
     }
     return plans;
   };
@@ -88,7 +82,7 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
   // S'assurer que les TabsTriggers sont suffisamment espacés pour être visibles
   useEffect(() => {
     // Forcer un petit délai pour s'assurer que les éléments DOM sont bien rendus
-    if (operator) {
+    if (operator === "Orange" && subscriptionType === "internet") {
       const timer = setTimeout(() => {
         if (tabsListRef.current) {
           // Forcer le rafraîchissement du défilement pour s'assurer que les onglets sont visibles
@@ -123,19 +117,6 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
     }
   };
 
-  // Obtenir les catégories disponibles selon le type de forfait et l'opérateur
-  const getCategories = () => {
-    if (subscriptionType === "internet" && operator === "Orange") {
-      return ORANGE_INTERNET_CATEGORIES;
-    } else if (subscriptionType === "call" && operator && CALL_CATEGORIES[operator]) {
-      return CALL_CATEGORIES[operator];
-    }
-    return [];
-  };
-
-  // Vérifier si des catégories sont disponibles pour filtrer
-  const hasCategories = getCategories().length > 0;
-
   return (
     <div className="animate-fade-in">
       <h2 className="text-xl font-semibold mb-4 text-center">Forfaits disponibles</h2>
@@ -150,7 +131,7 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
         </div>
       ) : (
         <div className="space-y-5">
-          {hasCategories && (
+          {operator === "Orange" && subscriptionType === "internet" && (
             <div className="relative flex items-center">
               <button 
                 onClick={() => scrollTabs('left')} 
@@ -162,7 +143,7 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
               </button>
               
               <Tabs 
-                defaultValue={getCategories()[0]?.id}
+                defaultValue={ORANGE_INTERNET_CATEGORIES[0].id}
                 onValueChange={(value) => setActiveCategory(value)}
                 className="w-full"
               >
@@ -172,7 +153,7 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
                     className="w-max flex overflow-x-scroll py-1.5 px-0.5 no-scrollbar"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                   >
-                    {getCategories().map((category) => (
+                    {ORANGE_INTERNET_CATEGORIES.map((category) => (
                       <TabsTrigger 
                         key={category.id} 
                         value={category.id}
@@ -184,7 +165,7 @@ const PlanSelectionStep: React.FC<PlanSelectionStepProps> = ({
                   </TabsList>
                 </div>
 
-                {getCategories().map((category) => (
+                {ORANGE_INTERNET_CATEGORIES.map((category) => (
                   <TabsContent key={category.id} value={category.id} className="mt-0">
                     <div className="text-center mb-2 text-sm font-medium text-muted-foreground">
                       {category.name}
