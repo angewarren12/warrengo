@@ -7,11 +7,14 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 type User = {
   phoneNumber: string;
   isAuthenticated: boolean;
+  fullName?: string;
+  email?: string;
 };
 
 type AuthContextType = {
   user: User | null;
   login: (phoneNumber: string, password: string) => Promise<void>;
+  register: (phoneNumber: string, password: string, fullName: string, email: string) => Promise<void>;
   logout: () => void;
   isLoading: boolean;
 };
@@ -60,6 +63,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Mock register function - in a real app this would connect to an API
+  const register = async (phoneNumber: string, password: string, fullName: string, email: string) => {
+    setIsLoading(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Simple validation
+      if (password.length < 6) {
+        throw new Error("Le mot de passe doit contenir au moins 6 caractères");
+      }
+      
+      // In a real app, you would actually create the user in your backend
+      
+      toast({
+        title: "Inscription réussie",
+        description: "Votre compte a été créé avec succès",
+      });
+      
+      // Note: We don't automatically log the user in, they need to go to login page
+      // This is a common pattern for most apps
+      
+      return Promise.resolve();
+    } catch (error: any) {
+      toast({
+        variant: "destructive",
+        title: "Erreur d'inscription",
+        description: error.message || "Une erreur est survenue lors de l'inscription",
+      });
+      return Promise.reject(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = () => {
     setUser(null);
     navigate("/");
@@ -70,7 +109,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );
