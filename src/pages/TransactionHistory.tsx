@@ -3,28 +3,12 @@ import React, { useState, useEffect } from "react";
 import { Layout } from "@/components/layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, Filter, ChevronDown, ChevronUp, ArrowDown, Calendar, ChevronRight, Smartphone } from "lucide-react";
+import { Search, Filter, ChevronDown, ChevronUp, ArrowDown, Calendar, ChevronRight } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
 
-// Interface pour les transactions
-interface Transaction {
-  id: string;
-  date: string;
-  type: "subscription" | "transfer";
-  amount: number;
-  status: "success" | "failed" | "pending";
-  details: {
-    operator?: string;
-    phoneNumber?: string;
-    planName?: string;
-    planType?: string;
-    recipient?: string;
-  };
-}
-
 // Données temporaires pour les transactions
-const mockTransactions: Transaction[] = [
+const mockTransactions = [
   {
     id: "TRX723491",
     date: "2023-05-12T10:45:00",
@@ -125,6 +109,16 @@ const mockTransactions: Transaction[] = [
   }
 ];
 
+// Interface pour les transactions
+interface Transaction {
+  id: string;
+  date: string;
+  type: "subscription" | "transfer";
+  amount: number;
+  status: "success" | "failed" | "pending";
+  details: any;
+}
+
 const TransactionHistory: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
   const [filter, setFilter] = useState("all");
@@ -161,11 +155,11 @@ const TransactionHistory: React.FC = () => {
         return (
           trx.id.toLowerCase().includes(query) ||
           (trx.type === "subscription" && 
-            (trx.details.phoneNumber?.includes(query) || 
-             trx.details.planName?.toLowerCase().includes(query))) ||
+            (trx.details.phoneNumber.includes(query) || 
+             trx.details.planName.toLowerCase().includes(query))) ||
           (trx.type === "transfer" && 
-            (trx.details.recipient?.toLowerCase().includes(query) || 
-             trx.details.phoneNumber?.includes(query)))
+            (trx.details.recipient.toLowerCase().includes(query) || 
+             trx.details.phoneNumber.includes(query)))
         );
       });
       
