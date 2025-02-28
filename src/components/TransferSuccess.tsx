@@ -66,7 +66,7 @@ const TransferSuccess: React.FC<TransferSuccessProps> = ({
     if (navigator.share) {
       navigator.share({
         title: "Transfert d'unités réussi",
-        text: `J'ai transféré ${amount} F à ${phoneNumber} via IvoirePay. ID de transaction: ${transactionId}`
+        text: `J'ai transféré ${amount} F à ${phoneNumber} via WarrenGo. ID de transaction: ${transactionId}`
       }).catch(() => {
         toast({
           title: "Partage annulé",
@@ -196,7 +196,7 @@ const TransferSuccess: React.FC<TransferSuccessProps> = ({
         
         <div className="bg-primary/5 rounded-lg p-4 max-w-xs mx-auto">
           <p className="text-xs text-muted-foreground">
-            Un SMS de confirmation a été envoyé au destinataire. Merci d'avoir utilisé notre service !
+            Un SMS de confirmation a été envoyé au destinataire. Merci d'avoir utilisé WarrenGo !
           </p>
         </div>
       </div>
