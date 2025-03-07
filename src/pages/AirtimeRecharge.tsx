@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from "react";
 import { Layout } from "@/components/layout";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, ArrowRight, ArrowLeft, Receipt } from "lucide-react";
+import { Phone, ArrowRight, ArrowLeft, Receipt, AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import PaymentAnimation from "@/components/PaymentAnimation";
 import { airtimeService } from "@/services/airtimeService";
@@ -17,6 +16,9 @@ const OPERATORS = {
 };
 
 const COMMISSION_PERCENTAGE = 3;
+
+// Variable pour activer le mode développement (tests locaux)
+const DEV_MODE = false;
 
 const AirtimeRecharge = () => {
   const [step, setStep] = useState(1);
@@ -76,6 +78,12 @@ const AirtimeRecharge = () => {
 
   // Vérifier l'éligibilité du numéro
   const checkEligibility = async () => {
+    // En mode développement, simuler l'éligibilité
+    if (DEV_MODE) {
+      setIsEligible(true);
+      return true;
+    }
+
     if (!validatePhoneNumber(phoneNumber)) {
       toast({
         variant: "destructive",
@@ -102,6 +110,7 @@ const AirtimeRecharge = () => {
         return false;
       }
     } catch (error) {
+      console.error("Erreur dans le composant:", error);
       toast({
         variant: "destructive",
         title: "Erreur",
@@ -115,6 +124,12 @@ const AirtimeRecharge = () => {
 
   // Effectuer la recharge
   const processRecharge = async () => {
+    // En mode développement, simuler la recharge réussie
+    if (DEV_MODE) {
+      setTransactionResult({ status: "success", message: "Simulation réussie" });
+      return true;
+    }
+
     try {
       setIsProcessing(true);
       setShowPaymentAnimation(true);
@@ -145,6 +160,7 @@ const AirtimeRecharge = () => {
       
       return response.status === "success";
     } catch (error) {
+      console.error("Erreur de recharge dans le composant:", error);
       toast({
         variant: "destructive",
         title: "Erreur",
@@ -224,6 +240,18 @@ const AirtimeRecharge = () => {
                 Veuillez entrer le numéro à recharger (commençant par 01, 05 ou 07)
               </p>
             </div>
+            
+            {DEV_MODE && (
+              <div className="mt-4 p-3 bg-yellow-100 rounded-md flex items-start gap-2">
+                <AlertCircle size={16} className="text-yellow-600 mt-0.5" />
+                <div>
+                  <p className="text-sm text-yellow-800 font-medium">Mode développement activé</p>
+                  <p className="text-xs text-yellow-700">
+                    Les appels à l'API sont simulés. Les données ne sont pas réelles.
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         );
       
