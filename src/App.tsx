@@ -67,7 +67,9 @@ function App() {
           <Route path="/admin" element={<AdminIndex />} />
           <Route path="/admin/login" element={<AdminLoginPage />} />
           
-          <Route path="/admin" element={<AdminLayout><Outlet /></AdminLayout>}>
+          <Route path="/admin" element={<AdminLayout>
+            <Outlet />
+          </AdminLayout>}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="transactions" element={<AdminTransactions />} />
             <Route path="users" element={<AdminUsers />} />
