@@ -54,13 +54,13 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           
-          <Route element={<Layout><Outlet /></Layout>}>
-            <Route path="/welcome" element={<Index />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/transfer" element={<TransferService />} />
-            <Route path="/subscription" element={<SubscriptionService />} />
-            <Route path="/history" element={<TransactionHistory />} />
-            <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<Layout><Outlet /></Layout>}>
+            <Route path="welcome" element={<Index />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="transfer" element={<TransferService />} />
+            <Route path="subscription" element={<SubscriptionService />} />
+            <Route path="history" element={<TransactionHistory />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
           
           {/* Routes d'administration */}
