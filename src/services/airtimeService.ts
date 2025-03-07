@@ -13,18 +13,33 @@ export const airtimeService = {
   // Vérifier l'éligibilité d'un numéro pour la recharge
   async checkEligibility(phoneNumber: string): Promise<AirtimeResponse> {
     try {
-      const response = await fetch(`${LAFRICAMOBILE_CONFIG.BASE_URL}/airtime/check-eligibility`, {
+      console.log(`Vérification du numéro: ${phoneNumber}`);
+      
+      // Formatage du numéro selon les besoins de l'API (peut nécessiter un préfixe pays)
+      const formattedNumber = phoneNumber.startsWith('+') ? phoneNumber : `+225${phoneNumber}`;
+      console.log(`Numéro formaté: ${formattedNumber}`);
+      
+      const response = await fetch(`${LAFRICAMOBILE_CONFIG.BASE_URL}/airtime/check`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Basic ${btoa(`${LAFRICAMOBILE_CONFIG.ACCESS_KEY}:${LAFRICAMOBILE_CONFIG.ACCESS_PASSWORD}`)}`
         },
         body: JSON.stringify({
-          phone: phoneNumber
+          phone: formattedNumber
         })
       });
 
-      return await response.json();
+      console.log('Réponse brute:', response);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Erreur API:', errorText);
+        throw new Error(`Erreur API: ${response.status} ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('Données de réponse:', data);
+      return data;
     } catch (error) {
       console.error("Erreur lors de la vérification d'éligibilité:", error);
       return {
@@ -37,6 +52,11 @@ export const airtimeService = {
   // Effectuer une recharge de crédit
   async rechargeAirtime(phoneNumber: string, amount: number, reference: string): Promise<AirtimeResponse> {
     try {
+      // Formatage du numéro selon les besoins de l'API
+      const formattedNumber = phoneNumber.startsWith('+') ? phoneNumber : `+225${phoneNumber}`;
+      
+      console.log(`Recharge pour ${formattedNumber}, montant: ${amount}, référence: ${reference}`);
+      
       const response = await fetch(`${LAFRICAMOBILE_CONFIG.BASE_URL}/airtime/topup`, {
         method: "POST",
         headers: {
@@ -44,13 +64,21 @@ export const airtimeService = {
           "Authorization": `Basic ${btoa(`${LAFRICAMOBILE_CONFIG.ACCESS_KEY}:${LAFRICAMOBILE_CONFIG.ACCESS_PASSWORD}`)}`
         },
         body: JSON.stringify({
-          phone: phoneNumber,
+          phone: formattedNumber,
           amount: amount,
           reference: reference
         })
       });
 
-      return await response.json();
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Erreur API lors de la recharge:', errorText);
+        throw new Error(`Erreur API: ${response.status} ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('Réponse de recharge:', data);
+      return data;
     } catch (error) {
       console.error("Erreur lors de la recharge:", error);
       return {
@@ -70,7 +98,15 @@ export const airtimeService = {
         }
       });
 
-      return await response.json();
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Erreur API lors de la vérification du solde:', errorText);
+        throw new Error(`Erreur API: ${response.status} ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('Solde du compte:', data);
+      return data;
     } catch (error) {
       console.error("Erreur lors de la vérification du solde:", error);
       return {
@@ -90,7 +126,15 @@ export const airtimeService = {
         }
       });
 
-      return await response.json();
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Erreur API lors de la récupération de l\'historique:', errorText);
+        throw new Error(`Erreur API: ${response.status} ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('Historique des transactions:', data);
+      return data;
     } catch (error) {
       console.error("Erreur lors de la récupération de l'historique:", error);
       return {
