@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Layout } from "@/components/layout";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +12,8 @@ import {
   CircleDollarSign,
   PanelRightOpen,
   QrCode,
-  Wallet
+  Wallet,
+  Upload
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -99,6 +101,8 @@ const Dashboard = () => {
         return <Send size={28} />;
       case "subscription":
         return <Smartphone size={28} />;
+      case "airtime":
+        return <Upload size={28} />;
       default:
         return <CircleDollarSign size={28} />;
     }
@@ -116,6 +120,12 @@ const Dashboard = () => {
       name: "Souscription",
       description: "Forfaits & Pass",
       route: "/subscription"
+    },
+    {
+      id: "airtime",
+      name: "Recharge crédit",
+      description: "Recharger un numéro",
+      route: "/airtime"
     }
   ];
 
@@ -183,7 +193,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-6">
           {services.map((service) => (
             <div 
               key={service.id} 

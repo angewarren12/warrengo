@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import TransferService from "@/pages/TransferService";
 import SubscriptionService from "@/pages/SubscriptionService";
 import TransactionHistory from "@/pages/TransactionHistory";
+import AirtimeRecharge from "@/pages/AirtimeRecharge";
 import "./App.css";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/transfer" element={<TransferService />} />
           <Route path="/subscription" element={<SubscriptionService />} />
           <Route path="/history" element={<TransactionHistory />} />
+          <Route path="/airtime" element={<AirtimeRecharge />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Toaster />
